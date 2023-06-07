@@ -9,4 +9,5 @@
 #' @examples
 #' data <- load_data("~/data.csv")
 load_data <- function(path) {
+    path
 }
