@@ -6,7 +6,6 @@
 #'
 #' @return Parsed data
 #' @export
-#' @importFrom shiny NS
 #' @examples
 #' data <- load_data("~/data.csv")
 load_data <- function(path) {
