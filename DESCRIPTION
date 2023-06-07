@@ -1,0 +1,11 @@
+Package: esbaser
+Title: R Package For Functionality In New Esbase System
+Version: 0.0.0.9000
+Authors@R: 
+    person("Elias", "Lundell", , "elilun03@gmail.com", role = c("aut", "cre"))
+Description: Contains the functionality for the new esbase system. This is planned
+to be used by the esbase-new-shiny application.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
