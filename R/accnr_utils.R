@@ -8,7 +8,7 @@
 #'
 #' @importFrom stringr str_detect
 #' @export
-validate_accnr <- function(accnr_str) {
+accnr_validate <- function(accnr_str) {
   str_detect(accnr_str, "^[A-Za-z][\\d]{4}/?[\\d]{5}$")
 }
 
@@ -20,7 +20,7 @@ validate_accnr <- function(accnr_str) {
 #' @param accnr_list The AccNR to be validated
 #' @param amount The value which will be added. Normally a 1 to get the next AccNR
 #' @export
-add_accnr <- function(accnr_list, amount) {
+accnr_add <- function(accnr_list, amount) {
   list(letter = accnr_list$letter, year = accnr_list$year, value = accnr_list$value + amount)
 }
 
@@ -32,8 +32,8 @@ add_accnr <- function(accnr_list, amount) {
 #'
 #' @param accnr_str The AccNR to be parsed, either with or without an '/'
 #' @export
-parse_accnr <- function(accnr_str) {
-  if (!validate_accnr(accnr_str)) {
+accnr_parse <- function(accnr_str) {
+  if (!accnr_validate(accnr_str)) {
     return(list(letter = "A", year = 0, value = 0))
   }
 
@@ -61,6 +61,6 @@ parse_accnr <- function(accnr_str) {
 #' accnr_next <- add_accnr(accnr_list, 3)
 #' print(sprint_accnr(accnr_next))
 #' @export
-sprint_accnr <- function(accnr_list) {
+accnr_sprint <- function(accnr_list) {
   sprintf("%s%04d/%05d", accnr_list$letter, accnr_list$year, accnr_list$value)
 }
