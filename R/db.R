@@ -18,20 +18,20 @@ get_accnr_biologdata <- function(accnr) {
 
   df <- data.frame(
     list("",
-      accnr,
-      runif(1, 0, 10),
-      runif(1, 120, 250),
-      runif(1, 8, 30),
-      runif(1, 9, 24),
-      sample(c("M", "F"), 1),
-      runif(1, 2, 10),
-      sample(c("J", "N"), 1),
-      runif(1, 4, 12),
-      runif(1, 2, 10),
-      runif(1, 5, 100),
-      runif(1, 4, 10),
-      sample(c("J", "N"), 1),
-      ""
+         accnr,
+         runif(1, 0, 10),
+         runif(1, 120, 250),
+         runif(1, 8, 30),
+         runif(1, 9, 24),
+         sample(c("M", "F"), 1),
+         runif(1, 2, 10),
+         sample(c("J", "N"), 1),
+         runif(1, 4, 12),
+         runif(1, 2, 10),
+         runif(1, 5, 100),
+         runif(1, 4, 10),
+         sample(c("J", "N"), 1),
+         ""
     ))
   colnames(df) <- colnames
   df
