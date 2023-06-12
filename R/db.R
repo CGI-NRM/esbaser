@@ -46,8 +46,7 @@ get_accnr_biologdata <- function(accnr) {
 #' @importFrom utils data
 #' @export
 get_stodlista_arter <- function() {
-  data("arter")
-  arter
+  esbaser::arter
 }
 
 #' Get stödlista med lokaler
@@ -59,6 +58,5 @@ get_stodlista_arter <- function() {
 #' @importFrom utils data
 #' @export
 get_stodlista_lokaler <- function() {
-  data("lokaler")
-  lokaler
+  esbaser::lokaler
 }
