@@ -36,3 +36,29 @@ get_accnr_biologdata <- function(accnr) {
   colnames(df) <- colnames
   df
 }
+
+#' Get stödlista med arter
+#'
+#' Returns a helplist containing all species that can be used for checking data input
+#'
+#' @return Dataframe med kolumner: Katalog, svenskt namn, latinskt namn, engelskt namn
+#' @importFrom tibble tibble
+#' @importFrom utils data
+#' @export
+get_stodlista_arter <- function() {
+  data("arter")
+  arter
+}
+
+#' Get stödlista med lokaler
+#'
+#' Returns a helplist containing all loakler that can be used for checking data input
+#'
+#' @return Dataframe with omrade, narmsta_ort, sjodistrikt, landskap, lan, land
+#' @importFrom tibble tibble
+#' @importFrom utils data
+#' @export
+get_stodlista_lokaler <- function() {
+  data("lokaler")
+  lokaler
+}

@@ -25,7 +25,7 @@ test_that("accnr adding works", {
     list(letter = "C", year = 0, value = 12345)
   )
 
-  for (i in seq_len(length(accnr_strs))) {
+  for (i in seq_len(length(accnr_lists))) {
     accnr_list <- accnr_add(accnr_lists[[i]], values_to_add[i])
     expect_equal(expected_parsed[[i]], accnr_list)
   }
