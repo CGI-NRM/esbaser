@@ -57,9 +57,9 @@ accnr_parse <- function(accnr_str) {
 #' @return A string of the nicely formated AccNR
 #' @examples
 #' accnr_str <- "A2022/12354"
-#' accnr_list <- parse_accnr(accnr_str)
-#' accnr_next <- add_accnr(accnr_list, 3)
-#' print(sprint_accnr(accnr_next))
+#' accnr_list <- accnr_parse(accnr_str)
+#' accnr_next <- accnr_add(accnr_list, 3)
+#' print(accnr_sprint(accnr_next))
 #' @export
 accnr_sprint <- function(accnr_list) {
   sprintf("%s%04d/%05d", accnr_list$letter, accnr_list$year, accnr_list$value)
