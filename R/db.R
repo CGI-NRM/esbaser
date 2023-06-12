@@ -16,7 +16,7 @@ get_accnr_biologdata <- function(accnr_str) {
                 "Notering/Avvikelse")
 
   if (accnr_str == "") {
-    df <- data.frame(list(rep("", length(colnames))))
+    df <- data.frame(list("", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
   } else {
     accnr_list <- accnr_parse(accnr_str)
     set.seed(accnr_list$value)
