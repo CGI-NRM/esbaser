@@ -4,7 +4,7 @@
 \alias{get_accnr_biologdata}
 \title{Get Biologdata from AccNR}
 \usage{
-get_accnr_biologdata(accnr)
+get_accnr_biologdata(accnr_str)
 }
 \arguments{
 \item{accnr}{The AccNR to get the data for}

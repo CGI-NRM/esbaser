@@ -7,8 +7,9 @@
 #' @return All biologdata that already exists for the AccNR
 #' @importFrom stats runif
 #' @export
-get_accnr_biologdata <- function(accnr) {
-  set.seed(accnr)
+get_accnr_biologdata <- function(accnr_str) {
+  accnr_list <- accnr_parse(accnr_str)
+  set.seed(accnr_list$value)
   colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
                 "Kroppsvikt (g)", "Totallängd (cm)",
                 "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
@@ -18,7 +19,7 @@ get_accnr_biologdata <- function(accnr) {
 
   df <- data.frame(
     list("",
-         accnr,
+         accnr_str,
          runif(1, 0, 10),
          runif(1, 120, 250),
          runif(1, 8, 30),
