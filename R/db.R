@@ -15,7 +15,7 @@ get_accnr_biologdata <- function(accnr_str) {
                 "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
                 "Notering/Avvikelse")
 
-  if (accnr_str == "") {
+  if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(list("", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
   } else {
     accnr_list <- accnr_parse(accnr_str)
