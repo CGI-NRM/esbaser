@@ -11,6 +11,8 @@ get_accnr_biologdata <- function(accnr_str) {
   colnames <- get_biologdata_colnames(pretty = FALSE)
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(as.list(rep("", length(colnames))))
+    colnames(df) <- colnames
+    df[1, "accnr"] <- accnr_str
   } else {
     accnr_list <- accnr_parse(accnr_str)
     set.seed(accnr_list$value)
@@ -31,9 +33,9 @@ get_accnr_biologdata <- function(accnr_str) {
            sample(c("J", "N"), 1),
            ""
       ))
+    colnames(df) <- colnames
   }
 
-  colnames(df) <- colnames
   df
 }
 
