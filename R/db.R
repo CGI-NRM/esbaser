@@ -8,7 +8,7 @@
 #' @importFrom stats runif
 #' @export
 get_accnr_biologdata <- function(accnr_str) {
-  colnames <- get_biologdata_colnames()
+  colnames <- get_biologdata_colnames(pretty = FALSE)
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(as.list(rep("", length(colnames))))
   } else {
@@ -39,15 +39,23 @@ get_accnr_biologdata <- function(accnr_str) {
 
 #' Get columnnames of biologdata
 #'
+#' @param pretty TRUE or FALSE, wether to return pretty values, 'Lever kvar (g)' or 'lever_kvar'
 #' @return The colnames of the biologdata
 #' @export
-get_biologdata_colnames <- function() {
-  colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
-                "Kroppsvikt (g)", "Totallängd (cm)",
-                "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
-                "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
-                "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
-                "Notering/Avvikelse")
+get_biologdata_colnames <- function(pretty) {
+  if (pretty) {
+    colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
+                  "Kroppsvikt (g)", "Totallängd (cm)",
+                  "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
+                  "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
+                  "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
+                  "Notering/Avvikelse")
+  } else {
+    colnames <- c(
+      "annat_nrmnr", "accnr", "alder", "kroppsvikt", "totallangd", "kroppslangd",
+      "kon", "gonadvikt", "gonad_sparad", "levervikt", "lever_kvar", "parasit",
+      "skrottvikt", "mage_sparad", "notering")
+  }
   colnames
 }
 

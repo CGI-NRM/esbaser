@@ -4,7 +4,10 @@
 \alias{get_biologdata_colnames}
 \title{Get columnnames of biologdata}
 \usage{
-get_biologdata_colnames()
+get_biologdata_colnames(pretty)
+}
+\arguments{
+\item{pretty}{TRUE or FALSE, wether to return pretty values, 'Lever kvar (g)' or 'lever_kvar'}
 }
 \value{
 The colnames of the biologdata
