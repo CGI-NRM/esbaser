@@ -8,13 +8,7 @@
 #' @importFrom stats runif
 #' @export
 get_accnr_biologdata <- function(accnr_str) {
-  colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
-                "Kroppsvikt (g)", "Totallängd (cm)",
-                "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
-                "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
-                "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
-                "Notering/Avvikelse")
-
+  colnames <- get_biologdata_colnames()
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(as.list(rep("", length(colnames))))
   } else {
@@ -41,6 +35,20 @@ get_accnr_biologdata <- function(accnr_str) {
 
   colnames(df) <- colnames
   df
+}
+
+#' Get columnnames of biologdata
+#'
+#' @return The colnames of the biologdata
+#' @export
+get_biologdata_colnames <- function() {
+  colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
+                "Kroppsvikt (g)", "Totallängd (cm)",
+                "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
+                "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
+                "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
+                "Notering/Avvikelse")
+  colnames
 }
 
 #' Get stödlista med arter
