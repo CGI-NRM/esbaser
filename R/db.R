@@ -11,27 +11,27 @@ get_accnr_biologdata <- function(accnr_str) {
   colnames <- get_biologdata_colnames(pretty = FALSE)
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(
-      annat_nrmnr = character(1),
+      annat_nrmnr = as.character(NA),
       accnr = accnr_str |> as.character(),
-      alder = double(1),
-      kroppsvikt = double(1),
-      totallangd = double(1),
-      kroppslangd = double(1),
-      kon = factor("", levels = c("", "F", "M")),
-      gonadvikt = double(1),
-      gonad_sparad = factor("", levels = c("", "J", "N")),
-      levervikt = double(1),
-      lever_kvar = double(1),
-      parasit = double(1),
-      skrottvikt = double(1),
-      mage_sparad = factor("", c("", "J", "N")),
-      notering = character(1)
+      alder = as.double(NA),
+      kroppsvikt = as.double(NA),
+      totallangd = as.double(NA),
+      kroppslangd = as.double(NA),
+      kon = factor(NA, levels = c("", "F", "M")),
+      gonadvikt = as.double(NA),
+      gonad_sparad = factor(NA, levels = c("", "J", "N")),
+      levervikt = as.double(NA),
+      lever_kvar = as.double(NA),
+      parasit = as.double(NA),
+      skrottvikt = as.double(NA),
+      mage_sparad = factor(NA, c("", "J", "N")),
+      notering = as.character(NA)
     )
   } else {
     accnr_list <- accnr_parse(accnr_str)
     set.seed(accnr_list$value)
     df <- data.frame(
-      annat_nrmnr = character(1),
+      annat_nrmnr = as.character(NA),
       accnr = accnr_str |> as.character(),
       alder = runif(1, 0, 10) |> as.numeric(),
       kroppsvikt = runif(1, 120, 250) |> as.numeric(),
@@ -45,7 +45,7 @@ get_accnr_biologdata <- function(accnr_str) {
       parasit = runif(1, 5, 100) |> as.numeric(),
       skrottvikt = runif(1, 4, 10) |> as.numeric(),
       mage_sparad = sample(c("J", "N"), 1) |> factor(c("", "J", "N")),
-      notering = character(1)
+      notering = as.character(NA)
     )
   }
 
