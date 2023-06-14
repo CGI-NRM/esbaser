@@ -7,7 +7,7 @@
 accnr_sprint(accnr_list)
 }
 \arguments{
-\item{accnr_list}{The AccNR to be parsed}
+\item{accnr_list}{The AccNR to format}
 }
 \value{
 A string of the nicely formated AccNR

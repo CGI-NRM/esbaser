@@ -9,7 +9,7 @@
 #' @importFrom stringr str_detect
 #' @export
 accnr_validate <- function(accnr_str) {
-  str_detect(accnr_str, "^[A-Za-z][\\d]{4}/?[\\d]{5}$")
+  str_detect(accnr_str, "^[ABCDGHLXP][\\d]{4}/?[\\d]{5}$")
 }
 
 
@@ -53,7 +53,7 @@ accnr_parse <- function(accnr_str) {
 #'
 #' @description Format the parsed accnr_list for printing.
 #'
-#' @param accnr_list The AccNR to be parsed
+#' @param accnr_list The AccNR to format
 #' @return A string of the nicely formated AccNR
 #' @examples
 #' accnr_str <- "A2022/12354"
@@ -63,4 +63,32 @@ accnr_parse <- function(accnr_str) {
 #' @export
 accnr_sprint <- function(accnr_list) {
   sprintf("%s%04d/%05d", accnr_list$letter, accnr_list$year, accnr_list$value)
+}
+
+#' Convert from human-readable accnr to the accnr saved in the db
+#'
+#' @param accnr_list The AccNR to format
+#' @return A string of the accnr formated for the db
+#' @export
+accnr_to_database_format <-  function(accnr_list) {
+  year_str <- sprintf("%04d", accnr_list$year)
+  first_num <- list("A" = "1", "B" = "2", "C" = "3", "D" = "4", "G" = "7", "H" = "8", "L" = "5", "P" = "9", "X" = "6")[[accnr_list$letter]]
+  sprintf("%s%s%05d", first_num, substring(year_str, 2, 4), accnr_list$value)
+}
+
+#' Convert from database accnr to human-readable accnr
+#'
+#' @param accnr_list The AccNR str from the database
+#' @return A parsed accnr_list
+#' @export
+accdb_parse_to_accnr <- function(accdb_str) {
+  letter <- list(
+    "1" = "A", "2" = "B", "3" = "C", "4" = "D", "7" = "G",
+    "8" = "H", "5" = "L", "9" = "P", "6" = "X"
+  )[[substring(accdb_str, 1, 1)]]
+  millenium <- ifelse(substring(accdb_str, 2, 2) == "9", "1", "2")
+  year <- as.numeric(paste0(millenium, substring(accdb_str, 2, 4)))
+  value <- as.numeric(substring(accdb_str, 5, 9))
+
+  list(letter = letter, year = year, value = value)
 }
