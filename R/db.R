@@ -10,30 +10,43 @@
 get_accnr_biologdata <- function(accnr_str) {
   colnames <- get_biologdata_colnames(pretty = FALSE)
   if (accnr_str == "" || accnr_str == "-") {
-    df <- data.frame(as.list(rep("", length(colnames))))
-    colnames(df) <- colnames
-    df[1, "accnr"] <- accnr_str
+    df <- data.frame(
+      annat_nrmnr = character(1),
+      accnr = accnr_str |> as.character(),
+      alder = double(1),
+      kroppsvikt = double(1),
+      totallangd = double(1),
+      kroppslangd = double(1),
+      kon = factor("", levels = c("", "F", "M")),
+      gonadvikt = double(1),
+      gonad_sparad = factor("", levels = c("", "J", "N")),
+      levervikt = double(1),
+      lever_kvar = double(1),
+      parasit = double(1),
+      skrottvikt = double(1),
+      mage_sparad = factor("", c("", "J", "N")),
+      notering = character(1)
+    )
   } else {
     accnr_list <- accnr_parse(accnr_str)
     set.seed(accnr_list$value)
     df <- data.frame(
-      list("",
-           accnr_str,
-           runif(1, 0, 10),
-           runif(1, 120, 250),
-           runif(1, 8, 30),
-           runif(1, 9, 24),
-           sample(c("M", "F"), 1),
-           runif(1, 2, 10),
-           sample(c("J", "N"), 1),
-           runif(1, 4, 12),
-           runif(1, 2, 10),
-           runif(1, 5, 100),
-           runif(1, 4, 10),
-           sample(c("J", "N"), 1),
-           ""
-      ))
-    colnames(df) <- colnames
+      annat_nrmnr = character(1),
+      accnr = accnr_str |> as.character(),
+      alder = runif(1, 0, 10) |> as.numeric(),
+      kroppsvikt = runif(1, 120, 250) |> as.numeric(),
+      totallangd = runif(1, 8, 30) |> as.numeric(),
+      kroppslangd = runif(1, 9, 24) |> as.numeric(),
+      kon = sample(c("M", "F"), 1) |> factor(levels = c("", "F", "M")),
+      gonadvikt = runif(1, 2, 10) |> as.numeric(),
+      gonad_sparad = sample(c("J", "N"), 1) |> factor(levels = c("", "J", "N")),
+      levervikt = runif(1, 4, 12) |> as.numeric(),
+      lever_kvar = runif(1, 2, 10) |> as.numeric(),
+      parasit = runif(1, 5, 100) |> as.numeric(),
+      skrottvikt = runif(1, 4, 10) |> as.numeric(),
+      mage_sparad = sample(c("J", "N"), 1) |> factor(c("", "J", "N")),
+      notering = character(1)
+    )
   }
 
   df
