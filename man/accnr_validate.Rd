@@ -4,10 +4,14 @@
 \alias{accnr_validate}
 \title{Validate AccNR entered by the user}
 \usage{
-accnr_validate(accnr_str)
+accnr_validate(accnr_str, valid_letters = "ABCDGHLXP")
 }
 \arguments{
 \item{accnr_str}{The AccNR to be validated}
+
+\item{valid_letters}{Which letters to accept as the first.
+Default is ABCDGHLXP, which is the requirement for later conversion to database format.
+But could also be Q for ProvIDs.}
 }
 \value{
 Logical value wether the accnr_str is a valid accnr that can be parsed or not.
