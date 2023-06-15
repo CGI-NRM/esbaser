@@ -7,7 +7,7 @@
 accnr_add(accnr_list, amount)
 }
 \arguments{
-\item{accnr_list}{The AccNR to be validated}
+\item{accnr_list}{The AccNR to add onto}
 
 \item{amount}{The value which will be added. Normally a 1 to get the next AccNR}
 }

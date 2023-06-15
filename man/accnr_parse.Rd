@@ -4,14 +4,10 @@
 \alias{accnr_parse}
 \title{Parse AccNR in string form}
 \usage{
-accnr_parse(accnr_str, valid_letters = "ABCDGHLXP")
+accnr_parse(accnr_str)
 }
 \arguments{
 \item{accnr_str}{The AccNR to be parsed, either with or without an '/'}
-
-\item{valid_letters}{Which letters to accept as the first.
-Default is ABCDGHLXP, which is the requirement for later conversion to database format.
-But could also be Q for ProvIDs.}
 }
 \value{
 A list containing the 'letter', 'year' and numeric 'value' of the accnr

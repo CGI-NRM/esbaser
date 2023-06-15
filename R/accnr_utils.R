@@ -5,14 +5,11 @@
 #' @return Logical value wether the accnr_str is a valid accnr that can be parsed or not.
 #'
 #' @param accnr_str The AccNR to be validated
-#' @param valid_letters Which letters to accept as the first.
-#' Default is ABCDGHLXP, which is the requirement for later conversion to database format.
-#' But could also be Q for ProvIDs.
 #'
 #' @importFrom stringr str_detect
 #' @export
-accnr_validate <- function(accnr_str, valid_letters = "ABCDGHLXP") {
-  str_detect(accnr_str, paste0("^[", paste0(valid_letters, collapse = ""), "][\\d]{4}/?[\\d]{5}$"))
+accnr_validate <- function(accnr_str) {
+  str_detect(accnr_str, "^[ABCDGHLXP][\\d]{4}/?[\\d]{5}$")
 }
 
 
@@ -20,7 +17,7 @@ accnr_validate <- function(accnr_str, valid_letters = "ABCDGHLXP") {
 #'
 #' @description Given a parsed AccNR, add to the value of it
 #'
-#' @param accnr_list The AccNR to be validated
+#' @param accnr_list The AccNR to add onto
 #' @param amount The value which will be added. Normally a 1 to get the next AccNR
 #' @export
 accnr_add <- function(accnr_list, amount) {
@@ -34,12 +31,9 @@ accnr_add <- function(accnr_list, amount) {
 #' @return A list containing the 'letter', 'year' and numeric 'value' of the accnr
 #'
 #' @param accnr_str The AccNR to be parsed, either with or without an '/'
-#' @param valid_letters Which letters to accept as the first.
-#' Default is ABCDGHLXP, which is the requirement for later conversion to database format.
-#' But could also be Q for ProvIDs.
 #' @export
-accnr_parse <- function(accnr_str, valid_letters = "ABCDGHLXP") {
-  if (!accnr_validate(accnr_str, valid_letters)) {
+accnr_parse <- function(accnr_str) {
+  if (!accnr_validate(accnr_str)) {
     return(NULL)
   }
 
