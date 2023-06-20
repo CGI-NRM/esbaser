@@ -11,7 +11,7 @@ get_accnr_biologdata <- function(accnr_str) {
   colnames <- get_biologdata_colnames(pretty = FALSE)
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(
-      annat_nrmnr = as.character(NA),
+      helpnr_at_testprep = as.character(NA),
       accnr = accnr_str |> as.character(),
       alder = as.double(NA),
       kroppsvikt = as.double(NA),
@@ -31,7 +31,7 @@ get_accnr_biologdata <- function(accnr_str) {
     accnr_list <- accnr_parse(accnr_str)
     set.seed(accnr_list$value)
     df <- data.frame(
-      annat_nrmnr = as.character(NA),
+      helpnr_at_testprep = as.character(NA),
       accnr = accnr_str |> as.character(),
       alder = runif(1, 0, 10) |> as.numeric(),
       kroppsvikt = runif(1, 120, 250) |> as.numeric(),
@@ -59,7 +59,7 @@ get_accnr_biologdata <- function(accnr_str) {
 #' @export
 get_biologdata_colnames <- function(pretty) {
   if (pretty) {
-    colnames <- c("Annat NRMnr.", "Acc.nr.", "Ålder (år)",
+    colnames <- c("Hjälpnummer vid provberedning", "Acc.nr.", "Ålder (år)",
                   "Kroppsvikt (g)", "Totallängd (cm)",
                   "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
                   "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
@@ -67,7 +67,7 @@ get_biologdata_colnames <- function(pretty) {
                   "Notering/Avvikelse")
   } else {
     colnames <- c(
-      "annat_nrmnr", "accnr", "alder", "kroppsvikt", "totallangd", "kroppslangd",
+      "helpnr_at_testprep", "accnr", "alder", "kroppsvikt", "totallangd", "kroppslangd",
       "kon", "gonadvikt", "gonad_sparad", "levervikt", "lever_kvar", "parasit",
       "skrottvikt", "mage_sparad", "notering")
   }
