@@ -59,7 +59,7 @@ get_accnr_biologdata <- function(accnr_str) {
 #' @export
 get_biologdata_colnames <- function(pretty) {
   if (pretty) {
-    colnames <- c("Hjälpnummer vid provberedning", "Acc.nr.", "Ålder (år)",
+    colnames <- c("Hjälpnr. vid provber.", "Acc.nr.", "Ålder (år)",
                   "Kroppsvikt (g)", "Totallängd (cm)",
                   "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
                   "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
