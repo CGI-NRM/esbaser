@@ -186,3 +186,15 @@ get_options_species <- function() {
 get_options_project <- function() {
   join_part(esbaser::project, "representation", cols = c("name", "number", "note"), collapse = ", ")
 }
+
+#' Get options material_type
+#'
+#' Returns the possble options for the material_type
+#'
+#' @return Tibble with id, representation
+#' @importFrom tibble tibble
+#' @importFrom dplyr bind_cols
+#' @export
+get_options_material_type <- function() {
+  join_part(esbaser::material_type, "representation", cols = c("code", "swe_name"), collapse = "-")
+}
