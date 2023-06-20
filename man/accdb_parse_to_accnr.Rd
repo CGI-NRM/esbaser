@@ -7,7 +7,7 @@
 accdb_parse_to_accnr(accdb_str)
 }
 \arguments{
-\item{accnr_list}{The AccNR str from the database}
+\item{accdb_str}{The AccNR str from the database}
 }
 \value{
 A parsed accnr_list

@@ -7,7 +7,7 @@
 get_accnr_biologdata(accnr_str)
 }
 \arguments{
-\item{accnr}{The AccNR to get the data for}
+\item{accnr_str}{The AccNR to get the data for}
 }
 \value{
 All biologdata that already exists for the AccNR

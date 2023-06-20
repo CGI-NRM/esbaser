@@ -82,7 +82,7 @@ accnr_to_database_format <-  function(accnr_list) {
 
 #' Convert from database accnr to human-readable accnr
 #'
-#' @param accnr_list The AccNR str from the database
+#' @param accdb_str The AccNR str from the database
 #' @return A parsed accnr_list
 #' @export
 accdb_parse_to_accnr <- function(accdb_str) {
