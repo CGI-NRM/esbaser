@@ -18,7 +18,7 @@ get_accnr_biologdata <- function(accnr_str) {
       kroppsvikt = as.double(NA),
       totallangd = as.double(NA),
       kroppslangd = as.double(NA),
-      kon = factor(NA, levels = genders[, "id", drop = TRUE], labels = gender[, "representation", drop = TRUE]),
+      kon = factor(NA, levels = genders[, "id", drop = TRUE], labels = genders[, "representation", drop = TRUE]),
       gonadvikt = as.double(NA),
       gonad_sparad = factor(NA, levels = c("", "J", "N")),
       levervikt = as.double(NA),
@@ -39,7 +39,7 @@ get_accnr_biologdata <- function(accnr_str) {
       totallangd = runif(1, 8, 30) |> as.numeric(),
       kroppslangd = runif(1, 9, 24) |> as.numeric(),
       kon = sample(genders[, "id", drop = TRUE]) |>
-      factor(levels = genders[, "id", drop = TRUE], labels = gender[, "representation", drop = TRUE]),
+      factor(levels = genders[, "id", drop = TRUE], labels = genders[, "representation", drop = TRUE]),
       gonadvikt = runif(1, 2, 10) |> as.numeric(),
       gonad_sparad = sample(c("J", "N"), 1) |> factor(levels = c("", "J", "N")),
       levervikt = runif(1, 4, 12) |> as.numeric(),
@@ -92,14 +92,22 @@ paste_collapse <- function(x, collapse = ", ") {
 #'
 #' Used to compile helplists where for example the species table has a catalog_id, which ponts to the catalog table
 #' @param tib A tibble contaning an id column, and one or more columns that should be joined into a string representation
-#' @param repr_column The string of the column-name the representation column should take
-#' @param id_column The name of the id column in the tibble tib
+#' @param id_in_tib The name of the id column in the tibble tib
+#' @param repr_column_in_res The string of the column-name the representation column should take
+#' @param id_column_in_res The name the id column should have in the returned tibble
 #' @param cols A vector with the columns in tib that should be joined
 #' @param collapse The string that should separate the columns cols
 #' @return A tibble taking the id_column from tib, and the combined cols separated by collapse
-join_part <- function(tib, id_in_tib = "id", repr_column_in_res = "repr", id_column_in_res = "id", cols = c("code", "swe_name"), collapse = "-") {
+join_part <- function(
+  tib,
+  id_in_tib = "id",
+  repr_column_in_res = "repr",
+  id_column_in_res = "id",
+  cols = c("code", "swe_name"),
+  collapse = "-"
+) {
   t <- tibble(
-    id = tib[, id_column, drop = TRUE],
+    id = tib[, id_in_tib, drop = TRUE],
     repr = apply(
       tib[, cols],
       1,
@@ -107,7 +115,7 @@ join_part <- function(tib, id_in_tib = "id", repr_column_in_res = "repr", id_col
       collapse = collapse
     )
   )
-  colnames(t) <- c(id_column_in_res, repr_column)
+  colnames(t) <- c(id_column_in_res, repr_column_in_res)
   t
 }
 

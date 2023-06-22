@@ -16,13 +16,15 @@ join_part(
 \arguments{
 \item{tib}{A tibble contaning an id column, and one or more columns that should be joined into a string representation}
 
+\item{id_in_tib}{The name of the id column in the tibble tib}
+
+\item{repr_column_in_res}{The string of the column-name the representation column should take}
+
+\item{id_column_in_res}{The name the id column should have in the returned tibble}
+
 \item{cols}{A vector with the columns in tib that should be joined}
 
 \item{collapse}{The string that should separate the columns cols}
-
-\item{repr_column}{The string of the column-name the representation column should take}
-
-\item{id_column}{The name of the id column in the tibble tib}
 }
 \value{
 A tibble taking the id_column from tib, and the combined cols separated by collapse
