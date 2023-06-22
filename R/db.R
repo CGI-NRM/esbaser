@@ -9,6 +9,7 @@
 #' @export
 get_accnr_biologdata <- function(accnr_str) {
   colnames <- get_biologdata_colnames(pretty = FALSE)
+  genders <- get_options_gender()
   if (accnr_str == "" || accnr_str == "-") {
     df <- data.frame(
       helpnr_at_testprep = as.character(NA),
@@ -17,7 +18,7 @@ get_accnr_biologdata <- function(accnr_str) {
       kroppsvikt = as.double(NA),
       totallangd = as.double(NA),
       kroppslangd = as.double(NA),
-      kon = factor(NA, levels = c("", "F", "M")),
+      kon = factor(NA, levels = genders[, "id", drop = TRUE], labels = gender[, "representation", drop = TRUE]),
       gonadvikt = as.double(NA),
       gonad_sparad = factor(NA, levels = c("", "J", "N")),
       levervikt = as.double(NA),
@@ -37,7 +38,8 @@ get_accnr_biologdata <- function(accnr_str) {
       kroppsvikt = runif(1, 120, 250) |> as.numeric(),
       totallangd = runif(1, 8, 30) |> as.numeric(),
       kroppslangd = runif(1, 9, 24) |> as.numeric(),
-      kon = sample(c("M", "F"), 1) |> factor(levels = c("", "F", "M")),
+      kon = sample(genders[, "id", drop = TRUE]) |>
+      factor(levels = genders[, "id", drop = TRUE], labels = gender[, "representation", drop = TRUE]),
       gonadvikt = runif(1, 2, 10) |> as.numeric(),
       gonad_sparad = sample(c("J", "N"), 1) |> factor(levels = c("", "J", "N")),
       levervikt = runif(1, 4, 12) |> as.numeric(),
