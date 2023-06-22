@@ -97,9 +97,9 @@ paste_collapse <- function(x, collapse = ", ") {
 #' @param cols A vector with the columns in tib that should be joined
 #' @param collapse The string that should separate the columns cols
 #' @return A tibble taking the id_column from tib, and the combined cols separated by collapse
-join_part <- function(tib, repr_column, id_column = "id", cols = c("code", "swe_name"), collapse = "-") {
+join_part <- function(tib, id_in_tib = "id", repr_column_in_res = "repr", id_column_in_res = "id", cols = c("code", "swe_name"), collapse = "-") {
   t <- tibble(
-    id = tib[, "id", drop = TRUE],
+    id = tib[, id_column, drop = TRUE],
     repr = apply(
       tib[, cols],
       1,
@@ -107,7 +107,7 @@ join_part <- function(tib, repr_column, id_column = "id", cols = c("code", "swe_
       collapse = collapse
     )
   )
-  colnames(t) <- c(id_column, repr_column)
+  colnames(t) <- c(id_column_in_res, repr_column)
   t
 }
 
@@ -122,10 +122,10 @@ join_part <- function(tib, repr_column, id_column = "id", cols = c("code", "swe_
 get_options_lokaler <- function() {
   data <- esbaser::locality[, c("id", "name", "closecity")]
 
-  county_part <- join_part(esbaser::county, "county_repr")
-  province_part <- join_part(esbaser::province, "province_repr")
-  coast_part <- join_part(esbaser::coast, "coast_repr")
-  country_part <- join_part(esbaser::country, "country_repr")
+  county_part <- join_part(esbaser::county, repr_column_in_res = "county_repr")
+  province_part <- join_part(esbaser::province, repr_column_in_res = "province_repr")
+  coast_part <- join_part(esbaser::coast, repr_column_in_res = "coast_repr")
+  country_part <- join_part(esbaser::country, repr_column_in_res = "country_repr")
 
   data <- bind_cols(
     data,
@@ -141,7 +141,7 @@ get_options_lokaler <- function() {
 
   join_part(
     data,
-    "representation",
+    repr_column_in_res = "representation",
     cols = c("county_repr", "province_repr", "coast_repr",
              "country_repr", "name", "closecity"), collapse = ", ")
 }
@@ -154,7 +154,7 @@ get_options_lokaler <- function() {
 #' @importFrom tibble tibble
 #' @export
 get_options_gender <- function() {
-  join_part(esbaser::gender, "representation", cols = c("code", "swe_name"), collapse = ", ")
+  join_part(esbaser::gender, repr_column_in_res = "representation", cols = c("code", "swe_name"), collapse = ", ")
 }
 
 #' Get options species
@@ -166,7 +166,7 @@ get_options_gender <- function() {
 #' @importFrom dplyr bind_cols
 #' @export
 get_options_species <- function() {
-  catalog_part <- join_part(esbaser::catalog, "catalog_repr", cols = c("name"))
+  catalog_part <- join_part(esbaser::catalog, repr_column_in_res = "catalog_repr", cols = c("name"))
 
   data <- bind_cols(
     esbaser::species[, c("id", "swe_name", "eng_name", "lat_name")],
@@ -174,7 +174,7 @@ get_options_species <- function() {
                        catalog_part[, "id", drop = TRUE]), "catalog_repr"]
   )
 
-  join_part(data, "representation", cols = c("swe_name", "eng_name", "lat_name", "catalog_repr"), collapse = ", ")
+  join_part(data, repr_column_in_res = "representation", cols = c("swe_name", "eng_name", "lat_name", "catalog_repr"), collapse = ", ")
 }
 
 #' Get options project
@@ -186,7 +186,7 @@ get_options_species <- function() {
 #' @importFrom dplyr bind_cols
 #' @export
 get_options_project <- function() {
-  join_part(esbaser::project, "representation", cols = c("name", "number", "note"), collapse = ", ")
+  join_part(esbaser::project, repr_column_in_res = "representation", cols = c("name", "number", "note"), collapse = ", ")
 }
 
 #' Get options material_type
@@ -198,5 +198,5 @@ get_options_project <- function() {
 #' @importFrom dplyr bind_cols
 #' @export
 get_options_material_type <- function() {
-  join_part(esbaser::material_type, "representation", cols = c("code", "swe_name"), collapse = "-")
+  join_part(esbaser::material_type, repr_column_in_res = "representation", cols = c("code", "swe_name"), collapse = "-")
 }
