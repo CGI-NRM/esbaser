@@ -38,7 +38,7 @@ get_accnr_biologdata <- function(accnr_str) {
       kroppsvikt = runif(1, 120, 250) |> as.numeric(),
       totallangd = runif(1, 8, 30) |> as.numeric(),
       kroppslangd = runif(1, 9, 24) |> as.numeric(),
-      kon = sample(genders[, "id", drop = TRUE]) |>
+      kon = sample(genders[, "id", drop = TRUE], 1) |>
       factor(levels = genders[, "id", drop = TRUE], labels = genders[, "representation", drop = TRUE]),
       gonadvikt = runif(1, 2, 10) |> as.numeric(),
       gonad_sparad = sample(c("J", "N"), 1) |> factor(levels = c("", "J", "N")),
