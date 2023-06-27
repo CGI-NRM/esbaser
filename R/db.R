@@ -1,6 +1,7 @@
 #' Get Biologdata from AccNR
 #'
 #' Given an AccNR, get the biologdata that already exists in the DB
+#' If the accnr_str is empty it will return an row of NA/empty values
 #'
 #' @param accnr_str The AccNR to get the data for
 #'
