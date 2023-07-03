@@ -4,14 +4,14 @@
 \alias{get_accessions_between}
 \title{Get accessions between}
 \usage{
-get_accessions_between(conn, lower, upper)
+get_accessions_between(conn, accnr_start, accnr_end)
 }
 \arguments{
 \item{conn}{The database connection returned by \link[esbaser]{connect_to_database}}
 
-\item{lower}{The lower accession_id (inclusive), formated in database format}
+\item{accnr_start}{The lower accession_id (inclusive)}
 
-\item{upper}{The upper accession_id (inclusive), formated in database format}
+\item{accnr_end}{The upper accession_id (inclusive)}
 }
 \value{
 Returns

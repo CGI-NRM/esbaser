@@ -24,13 +24,18 @@ connect_to_database <- function(dbname = "test") {
 #' Gets all accessions between lower and upper
 #'
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
-#' @param lower The lower accession_id (inclusive), formated in database format
-#' @param upper The upper accession_id (inclusive), formated in database format
+#' @param accnr_start The lower accession_id (inclusive)
+#' @param accnr_end The upper accession_id (inclusive)
 #' @return Returns
 #' @export
-get_accessions_between <- function(conn, lower, upper) {
+get_accessions_between <- function(conn, accnr_start, accnr_end) {
+  accnr_start_list <- accnr_parse(accnr_start)
+  accnr_end_list <- accnr_parse(accnr_end)
+  accdb_start <- accnr_to_database_format(accnr_start_list)
+  accdb_end <- accnr_to_database_format(accnr_end_list)
+
   tbl(conn, "accession") |>
-  filter(between(id, lower, upper)) |>
+  filter(between(id, accdb_start, accdb_end)) |>
   select(id,
          project_id,
          locality_id,
