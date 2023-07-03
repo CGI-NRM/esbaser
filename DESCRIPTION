@@ -13,10 +13,12 @@ Imports:
     stringr,
     stats,
     tibble,
-    dplyr
+    RMariaDB,
+    DBI
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    dplyr (>= 1.1.2)
 LazyData: true

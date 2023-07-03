@@ -1,263 +1,55 @@
-#' Get Biologdata from AccNR
+#' Connect to database
 #'
-#' Given an AccNR, get the biologdata that already exists in the DB
-#' If the accnr_str is empty it will return an row of NA/empty values
+#' Initializes connection to database.
 #'
-#' @param accnr_str The AccNR to get the data for
-#'
-#' @return All biologdata that already exists for the AccNR
-#' @importFrom stats runif
+#' @param dbname The name of the database, is 'test' on my local computer, 'mgg2' on the production machine
+#' @return conn, The database connection
+#' @import dplyr
+#' @importFrom DBI dbConnect
 #' @export
-get_accnr_biologdata <- function(accnr_str) {
-  colnames <- get_biologdata_colnames(pretty = FALSE)
-  genders <- get_options_gender()
-  if (accnr_str == "" || accnr_str == "-") {
-    df <- data.frame(
-      helpnr_at_testprep = as.character(NA),
-      accnr = accnr_str |> as.character(),
-      alder = as.double(NA),
-      kroppsvikt = as.double(NA),
-      totallangd = as.double(NA),
-      kroppslangd = as.double(NA),
-      kon = factor(NA, levels = genders[, "id", drop = TRUE], labels = genders[, "representation", drop = TRUE]),
-      gonadvikt = as.double(NA),
-      gonad_sparad = factor(NA, levels = c("", "J", "N")),
-      levervikt = as.double(NA),
-      lever_kvar = as.double(NA),
-      parasit = as.double(NA),
-      skrottvikt = as.double(NA),
-      mage_sparad = factor(NA, c("", "J", "N")),
-      notering = as.character(NA)
-    )
-  } else {
-    accnr_list <- accnr_parse(accnr_str)
-    set.seed(accnr_list$value)
-    df <- data.frame(
-      helpnr_at_testprep = as.character(NA),
-      accnr = accnr_str |> as.character(),
-      alder = runif(1, 0, 10) |> as.numeric(),
-      kroppsvikt = runif(1, 120, 250) |> as.numeric(),
-      totallangd = runif(1, 8, 30) |> as.numeric(),
-      kroppslangd = runif(1, 9, 24) |> as.numeric(),
-      kon = sample(genders[, "id", drop = TRUE], 1) |>
-      factor(levels = genders[, "id", drop = TRUE], labels = genders[, "representation", drop = TRUE]),
-      gonadvikt = runif(1, 2, 10) |> as.numeric(),
-      gonad_sparad = sample(c("J", "N"), 1) |> factor(levels = c("", "J", "N")),
-      levervikt = runif(1, 4, 12) |> as.numeric(),
-      lever_kvar = runif(1, 2, 10) |> as.numeric(),
-      parasit = runif(1, 5, 100) |> as.numeric(),
-      skrottvikt = runif(1, 4, 10) |> as.numeric(),
-      mage_sparad = sample(c("J", "N"), 1) |> factor(c("", "J", "N")),
-      notering = as.character(NA)
-    )
-  }
-
-  df
-}
-
-#' Get Accession rows from AccNRs
-#'
-#' Given a vector of AccNRs, get the accession rows
-#'
-#' @param accnr_start The accnr to start load from
-#' @param accnr_end The accnr to end at
-#'
-#' @return All accession rows between the specified accnrs
-#' @export
-load_accessions <- function(accnr_start, accnr_end) {
-  accnr_start_list <- accnr_parse(accnr_start)
-  accnr_end_list <- accnr_parse(accnr_end)
-  accdb_start <- accnr_to_database_format(accnr_start_list)
-  accdb_end <- accnr_to_database_format(accnr_end_list)
-  # SELECT * FROM accession WHERE id BETWEEN accdb_start AND accdb_end;
-
-  row <- tibble(
-    id = "",
-    project_id = 0,
-    locality_id = 0,
-    accdate = NA,
-    arrival_date = "2022-11-30",
-    species_id = 500,
-    discovery_id = 2,
-    discovery_date_start = "2022-09-27",
-    discovery_date_end = NA,
-    sender_id = 1908,
-    collector_id = 1908,
-    created_by = 2124,
-    updated_by = 2124,
-    note = "Ingår i serie B2022/07644-07674\nVaccade i 2 påsar 1.15 st 07644-07658\n2. 16 st 07659-07674",
-    complete = NA,
-    latitude = 18.168,
-    longitude = 60.427,
-    findplace_note = "Forsmark vid Biotest",
-    coordinate_precision_id = 3,
-    oldnumber = NA,
-    description = "",
-    catalog_id = 2,
-    created = "2023-01-26 06:30:52",
-    updated = "2023-01-26 06:30:52"
-    )
-
-  tib <- tibble()
-  for (i in seq_len(accnr_end_list$value - accnr_start_list$value + 1)) {
-    row[, "id"] <- accnr_to_database_format(accnr_add(accnr_start_list, i - 1))
-    tib <- rbind(tib, row)
-  }
-
-  tib
-}
-
-#' Get columnnames of biologdata
-#'
-#' @param pretty TRUE or FALSE, wether to return pretty values, 'Lever kvar (g)' or 'lever_kvar'
-#' @return The colnames of the biologdata
-#' @export
-get_biologdata_colnames <- function(pretty) {
-  if (pretty) {
-    colnames <- c("Hjälpnr. vid provber.", "Acc.nr.", "Ålder (år)",
-                  "Kroppsvikt (g)", "Totallängd (cm)",
-                  "Kroppslängd (cm)", "Kön", "Gonadvikt (g)",
-                  "Gonad sparad J/N", "Levervikt (g)", "Lever kvar (g)",
-                  "Parasit (g)", "Skrottvikt (g)", "Mage sparad J/N",
-                  "Notering/Avvikelse")
-  } else {
-    colnames <- c(
-      "helpnr_at_testprep", "accnr", "alder", "kroppsvikt", "totallangd", "kroppslangd",
-      "kon", "gonadvikt", "gonad_sparad", "levervikt", "lever_kvar", "parasit",
-      "skrottvikt", "mage_sparad", "notering")
-  }
-  colnames
-}
-
-#' Paste Collapse
-#'
-#' Removes all NA:s and empty strings from x, then pastes and collapses them together
-#'
-#' @param x The vector which non-Na non-empty-string values should be pasted and collapsed
-#' @param collapse Passed to the paste function
-#'
-#' @return A string of the collapsed values with the collapse param between ignoring empty strings and NAs
-paste_collapse <- function(x, collapse = ", ") {
-  paste(x[x != "" & !is.na(x)], collapse = collapse)
-}
-
-#' Join Part
-#'
-#' Used to compile helplists where for example the species table has a catalog_id, which ponts to the catalog table
-#' @param tib A tibble contaning an id column, and one or more columns that should be joined into a string representation
-#' @param id_in_tib The name of the id column in the tibble tib
-#' @param repr_column_in_res The string of the column-name the representation column should take
-#' @param id_column_in_res The name the id column should have in the returned tibble
-#' @param cols A vector with the columns in tib that should be joined
-#' @param collapse The string that should separate the columns cols
-#' @return A tibble taking the id_column from tib, and the combined cols separated by collapse
-join_part <- function(
-  tib,
-  id_in_tib = "id",
-  repr_column_in_res = "repr",
-  id_column_in_res = "id",
-  cols = c("code", "swe_name"),
-  collapse = "-"
-) {
-  t <- tibble(
-    id = tib[, id_in_tib, drop = TRUE],
-    repr = apply(
-      tib[, cols],
-      1,
-      paste_collapse,
-      collapse = collapse
-    )
-  )
-  colnames(t) <- c(id_column_in_res, repr_column_in_res)
-  t
-}
-
-#' Get options lokaler
-#'
-#' Returns the possble options for the locality
-#'
-#' @return Tibble with id, representation
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @export
-get_options_lokaler <- function() {
-  data <- esbaser::locality[, c("id", "name", "closecity")]
-
-  county_part <- join_part(esbaser::county, repr_column_in_res = "county_repr")
-  province_part <- join_part(esbaser::province, repr_column_in_res = "province_repr")
-  coast_part <- join_part(esbaser::coast, repr_column_in_res = "coast_repr")
-  country_part <- join_part(esbaser::country, repr_column_in_res = "country_repr")
-
-  data <- bind_cols(
-    data,
-    county_part[match(esbaser::locality[, "county_id", drop = TRUE],
-                      county_part[, "id", drop = TRUE]), "county_repr"],
-    province_part[match(esbaser::locality[, "province_id", drop = TRUE],
-                        province_part[, "id", drop = TRUE]), "province_repr"],
-    coast_part[match(esbaser::locality[, "coast_id", drop = TRUE],
-                     coast_part[, "id", drop = TRUE]), "coast_repr"],
-    country_part[match(esbaser::locality[, "country_id", drop = TRUE],
-                       country_part[, "id", drop = TRUE]), "country_repr"]
+connect_to_database <- function(dbname = "test") {
+  conn <- DBI::dbConnect(
+    RMariaDB::MariaDB(),
+    username = "docker",
+    password = "dockerpass",
+    host = "172.17.0.1",
+    dbname = dbname
   )
 
-  join_part(
-    data,
-    repr_column_in_res = "representation",
-    cols = c("county_repr", "province_repr", "coast_repr",
-             "country_repr", "name", "closecity"), collapse = ", ")
+  conn
 }
 
-#' Get options gender
+#' Get accessions between
 #'
-#' Returns the possble options for the gender
+#' Gets all accessions between lower and upper
 #'
-#' @return Tibble with id, representation
-#' @importFrom tibble tibble
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param lower The lower accession_id (inclusive), formated in database format
+#' @param upper The upper accession_id (inclusive), formated in database format
+#' @return Returns
 #' @export
-get_options_gender <- function() {
-  join_part(esbaser::gender, repr_column_in_res = "representation", cols = c("code", "swe_name"), collapse = ", ")
-}
-
-#' Get options species
-#'
-#' Returns the possble options for the species
-#'
-#' @return Tibble with id, representation
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @export
-get_options_species <- function() {
-  catalog_part <- join_part(esbaser::catalog, repr_column_in_res = "catalog_repr", cols = c("name"))
-
-  data <- bind_cols(
-    esbaser::species[, c("id", "swe_name", "eng_name", "lat_name")],
-    catalog_part[match(esbaser::species[, "catalog_id", drop = TRUE],
-                       catalog_part[, "id", drop = TRUE]), "catalog_repr"]
+get_accessions_between <- function(conn, lower, upper) {
+  tbl(conn, "accession") |>
+  filter(between(id, lower, upper)) |>
+  select(id,
+         project_id,
+         locality_id,
+         accdate,
+         arrival_date,
+         species_id,
+         discovery_id,
+         discovery_date_start,
+         discovery_date_end,
+         sender_id,
+         collector_id,
+         note,
+         complete,
+         latitude,
+         longitude,
+         findplace_note,
+         coordinate_precision_id,
+         oldnumber,
+         description,
+         catalog_id
   )
-
-  join_part(data, repr_column_in_res = "representation", cols = c("swe_name", "eng_name", "lat_name", "catalog_repr"), collapse = ", ")
-}
-
-#' Get options project
-#'
-#' Returns the possble options for the project
-#'
-#' @return Tibble with id, representation
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @export
-get_options_project <- function() {
-  join_part(esbaser::project, repr_column_in_res = "representation", cols = c("name", "number", "note"), collapse = ", ")
-}
-
-#' Get options material_type
-#'
-#' Returns the possble options for the material_type
-#'
-#' @return Tibble with id, representation
-#' @importFrom tibble tibble
-#' @importFrom dplyr bind_cols
-#' @export
-get_options_material_type <- function() {
-  join_part(esbaser::material_type, repr_column_in_res = "representation", cols = c("code", "swe_name"), collapse = "-")
 }
