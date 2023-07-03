@@ -26,7 +26,7 @@ connect_to_database <- function(dbname = "test") {
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
 #' @param accnr_start The lower accession_id (inclusive)
 #' @param accnr_end The upper accession_id (inclusive)
-#' @return Returns
+#' @return Returns a tibble
 #' @export
 get_accessions_between <- function(conn, accnr_start, accnr_end) {
   accnr_start_list <- accnr_parse(accnr_start)
@@ -56,5 +56,6 @@ get_accessions_between <- function(conn, accnr_start, accnr_end) {
          oldnumber,
          description,
          catalog_id
-  )
+  ) |>
+  collect()
 }
