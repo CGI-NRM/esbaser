@@ -1,10 +1,12 @@
+#' @import dplyr
+NULL
+
 #' Connect to database
 #'
 #' Initializes connection to database.
 #'
 #' @param dbname The name of the database, is 'test' on my local computer, 'mgg2' on the production machine
 #' @return conn The database connection
-#' @import dplyr
 #' @importFrom DBI dbConnect
 #' @export
 connect_to_database <- function(dbname = "test") {
