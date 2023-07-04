@@ -14,7 +14,7 @@ get_accessions_between(conn, accnr_start, accnr_end)
 \item{accnr_end}{The upper accession_id (inclusive)}
 }
 \value{
-Returns a tibble
+A tibble
 }
 \description{
 Gets all accessions between lower and upper

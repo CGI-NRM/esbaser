@@ -3,7 +3,7 @@
 #' Initializes connection to database.
 #'
 #' @param dbname The name of the database, is 'test' on my local computer, 'mgg2' on the production machine
-#' @return conn, The database connection
+#' @return conn The database connection
 #' @import dplyr
 #' @importFrom DBI dbConnect
 #' @export
@@ -26,7 +26,7 @@ connect_to_database <- function(dbname = "test") {
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
 #' @param accnr_start The lower accession_id (inclusive)
 #' @param accnr_end The upper accession_id (inclusive)
-#' @return Returns a tibble
+#' @return A tibble
 #' @export
 get_accessions_between <- function(conn, accnr_start, accnr_end) {
   accnr_start_list <- accnr_parse(accnr_start)
@@ -47,6 +47,8 @@ get_accessions_between <- function(conn, accnr_start, accnr_end) {
          discovery_date_end,
          sender_id,
          collector_id,
+         created_by,
+         updated_by,
          note,
          complete,
          latitude,
@@ -55,7 +57,122 @@ get_accessions_between <- function(conn, accnr_start, accnr_end) {
          coordinate_precision_id,
          oldnumber,
          description,
-         catalog_id
+         catalog_id,
+         created,
+         updated
+  ) |>
+  collect()
+}
+
+#' Get Localitys
+#'
+#' Get the entire locality table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_locality <- function(conn) {
+  tbl(conn, "locality") |>
+  select(id,
+         county_id,
+         province_id,
+         coast_id,
+         country_id,
+         name,
+         closecity,
+         created_by,
+         updated_by,
+         note,
+         created,
+         updated
+  ) |>
+  collect()
+}
+
+
+#' Get Countys
+#'
+#' Get the entire county table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_county <- function(conn) {
+  tbl(conn, "county") |>
+  select(id,
+         code,
+         swe_name,
+         eng_name
+  ) |>
+  collect()
+}
+
+#' Get Countrys
+#'
+#' Get the entire country table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_country <- function(conn) {
+  tbl(conn, "country") |>
+  select(id,
+         code,
+         swe_name,
+         eng_name,
+         created_by,
+         updated_by,
+         created,
+         updated
+  ) |>
+  collect()
+}
+
+#' Get Provinces
+#'
+#' Get the entire province table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_province <- function(conn) {
+  tbl(conn, "province") |>
+  select(id,
+         code,
+         swe_name,
+         eng_name,
+  ) |>
+  collect()
+}
+
+#' Get Coasts
+#'
+#' Get the entire coast table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_coast <- function(conn) {
+  tbl(conn, "coast") |>
+  select(id,
+         code,
+         swe_name,
+         eng_name,
+  ) |>
+  collect()
+}
+
+#' Get Catalog
+#'
+#' Get the entire catalog table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_catalog <- function(conn) {
+  tbl(conn, "catalog") |>
+  select(id,
+         name
   ) |>
   collect()
 }

@@ -10,7 +10,7 @@ connect_to_database(dbname = "test")
 \item{dbname}{The name of the database, is 'test' on my local computer, 'mgg2' on the production machine}
 }
 \value{
-conn, The database connection
+conn The database connection
 }
 \description{
 Initializes connection to database.
