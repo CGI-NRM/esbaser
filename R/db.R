@@ -178,3 +178,26 @@ get_catalog <- function(conn) {
   ) |>
   collect()
 }
+
+#' Get Species
+#'
+#' Get the entire species table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_species <- function(conn) {
+  tbl(conn, "species") |>
+  select(id,
+         swe_name,
+         eng_name,
+         type,
+         lat_name,
+         created_by,
+         updated_by,
+         catalog_id,
+         created,
+         updated
+  ) |>
+  collect()
+}

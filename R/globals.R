@@ -30,5 +30,7 @@ utils::globalVariables(c("id",
                          "province_id",
                          "closecity",
                          "name",
-                         "coast_id")
+                         "coast_id",
+                         "type",
+                         "lat_name")
 )
