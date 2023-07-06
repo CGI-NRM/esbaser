@@ -50,8 +50,8 @@ disconnect_from_database <- function(conn) {
 #' @return A tibble
 #' @export
 get_accessions_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "accession") |>
   filter(between(id, accdb_start, accdb_end)) |>
@@ -71,8 +71,8 @@ get_accessions_between <- function(conn, accnr_start, accnr_end) {
 #' @return A tibble
 #' @export
 get_fish_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "fish") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
@@ -91,8 +91,8 @@ get_fish_between <- function(conn, accnr_start, accnr_end) {
 #' @return A tibble
 #' @export
 get_egg_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "egg") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
@@ -113,8 +113,8 @@ get_egg_between <- function(conn, accnr_start, accnr_end) {
 #' @return A tibble
 #' @export
 get_clam_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "clam") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
@@ -132,8 +132,8 @@ get_clam_between <- function(conn, accnr_start, accnr_end) {
 #' @return A tibble
 #' @export
 get_mammal_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "mammal") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
@@ -155,8 +155,8 @@ get_mammal_between <- function(conn, accnr_start, accnr_end) {
 #' @return A tibble
 #' @export
 get_bird_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
-  accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
 
   tbl(conn, "bird") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>

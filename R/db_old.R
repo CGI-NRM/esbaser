@@ -55,58 +55,6 @@ get_accnr_biologdata <- function(accnr_str) {
   df
 }
 
-#' Get Accession rows from AccNRs
-#'
-#' Given a vector of AccNRs, get the accession rows
-#'
-#' @param accnr_start The accnr to start load from
-#' @param accnr_end The accnr to end at
-#'
-#' @return All accession rows between the specified accnrs
-#' @export
-load_accessions <- function(accnr_start, accnr_end) {
-  accnr_start_list <- accnr_parse(accnr_start)
-  accnr_end_list <- accnr_parse(accnr_end)
-  accdb_start <- accnr_to_database_format(accnr_start_list)
-  accdb_end <- accnr_to_database_format(accnr_end_list)
-  # SELECT * FROM accession WHERE id BETWEEN accdb_start AND accdb_end;
-
-  row <- tibble(
-    id = "",
-    project_id = 0,
-    locality_id = 0,
-    accdate = NA,
-    arrival_date = "2022-11-30",
-    species_id = 500,
-    discovery_id = 2,
-    discovery_date_start = "2022-09-27",
-    discovery_date_end = NA,
-    sender_id = 1908,
-    collector_id = 1908,
-    created_by = 2124,
-    updated_by = 2124,
-    note = "Ingår i serie B2022/07644-07674\nVaccade i 2 påsar 1.15 st 07644-07658\n2. 16 st 07659-07674",
-    complete = NA,
-    latitude = 18.168,
-    longitude = 60.427,
-    findplace_note = "Forsmark vid Biotest",
-    coordinate_precision_id = 3,
-    oldnumber = NA,
-    description = "",
-    catalog_id = 2,
-    created = "2023-01-26 06:30:52",
-    updated = "2023-01-26 06:30:52"
-    )
-
-  tib <- tibble()
-  for (i in seq_len(accnr_end_list$value - accnr_start_list$value + 1)) {
-    row[, "id"] <- accnr_to_database_format(accnr_add(accnr_start_list, i - 1))
-    tib <- rbind(tib, row)
-  }
-
-  tib
-}
-
 #' Get columnnames of biologdata
 #'
 #' @param pretty TRUE or FALSE, wether to return pretty values, 'Lever kvar (g)' or 'lever_kvar'

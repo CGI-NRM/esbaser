@@ -70,7 +70,7 @@ accnr_sprint <- function(accnr_tib) {
 #' @param accnr_tib The AccNR to format
 #' @return A string of the accnr formated for the db
 #' @export
-accnr_to_database_format <-  function(accnr_tib) {
+accnr_db_sprint <-  function(accnr_tib) {
   valid <- accnr_tib$letter %in% c("A", "B", "C", "D", "G", "H", "L", "X", "P")
   accnr_tib[!valid, ] <- NA
 
@@ -83,12 +83,12 @@ accnr_to_database_format <-  function(accnr_tib) {
   sprintf("%s%s%05d", first_num, substring(year_str, 2, 4), accnr_tib$value)
 }
 
-#' Convert from database accnr to human-readable accnr
+#' Convert from database accdb to parsed accnr-tibble
 #'
 #' @param accdb_str The AccNR str from the database
 #' @return A parsed accnr_tib
 #' @export
-accdb_parse_to_accnr <- function(accdb_str) {
+accdb_parse <- function(accdb_str) {
   valid <- str_detect(accdb_str, "[1-9][0-9]{8}")
   accdb_str[!valid] <- NA
 
@@ -106,4 +106,22 @@ accdb_parse_to_accnr <- function(accdb_str) {
   value <- as.numeric(substring(accdb_str, 5, 9))
 
   tibble(letter = letter, year = year, value = value)
+}
+
+#' Convert from accnr to database accdb
+#'
+#' @param accnr_str The AccNR str
+#' @return An accdb str
+#' @export
+accnr_to_accdb <- function(accnr_str) {
+  accnr_db_sprint(accnr_parse(accnr_str))
+}
+
+#' Convert from database accdb to accnr
+#'
+#' @param accdb_str The AccNR str from the database
+#' @return An accnr str
+#' @export
+accdb_to_accnr <- function(accdb_str) {
+  accnr_sprint(accdb_parse(accdb_str))
 }
