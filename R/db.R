@@ -29,6 +29,17 @@ connect_to_database <- function(
   conn
 }
 
+#' Disconnect from database
+#'
+#' Close connection to database
+#'
+#' @param conn A database connection returned by \link[esbaser]{connect_to_database}
+#' @importFrom DBI dbDisconnect
+#' @export
+disconnect_from_database <- function(conn) {
+  conn <- DBI::dbDisconnect(conn)
+}
+
 #' Get accessions between
 #'
 #' Gets all accessions between lower and upper
