@@ -184,7 +184,6 @@ get_locality <- function(conn) {
   collect()
 }
 
-
 #' Get Countys
 #'
 #' Get the entire county table from the database

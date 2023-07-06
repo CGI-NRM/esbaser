@@ -36,7 +36,7 @@ accnr_parse <- function(accnr_str) {
   valid <- accnr_validate(accnr_str)
   accnr_str[!valid] <- NA
 
-  if (any(!valid)) {
+  if (any(!valid, na.rm = TRUE)) {
     warning("Invalid AccNR, NAs introduced by coercion.")
   }
 
@@ -74,7 +74,7 @@ accnr_to_database_format <-  function(accnr_tib) {
   valid <- accnr_tib$letter %in% c("A", "B", "C", "D", "G", "H", "L", "X", "P")
   accnr_tib[!valid, ] <- NA
 
-  if (any(!valid)) {
+  if (any(!valid, na.rm = TRUE)) {
     warning("AccNR's letter was not one of ABCDGHLXP and cannot be converted to database format.")
   }
 
@@ -92,7 +92,7 @@ accdb_parse_to_accnr <- function(accdb_str) {
   valid <- str_detect(accdb_str, "[1-9][0-9]{8}")
   accdb_str[!valid] <- NA
 
-  if (any(!valid)) {
+  if (any(!valid, na.rm = TRUE)) {
     warning("AccDB str is not correctly formatted and cannot be converted to AccNR.")
   }
 
