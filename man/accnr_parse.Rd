@@ -7,10 +7,10 @@
 accnr_parse(accnr_str)
 }
 \arguments{
-\item{accnr_str}{The AccNR to be parsed, either with or without an '/'}
+\item{accnr_str}{The AccNR to be parsed (single or vector), either with or without an '/'}
 }
 \value{
-A list containing the 'letter', 'year' and numeric 'value' of the accnr
+A tibble with the columns 'letter', 'year' and numeric 'value' of the accnrs
 }
 \description{
 If it is valid a accnr, generate a list containing 'letter', 'year' and 'value' based on it.

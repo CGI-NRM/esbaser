@@ -10,8 +10,8 @@ provid_parse(provid_str)
 \item{provid_str}{The ProvID to be parsed}
 }
 \value{
-A list containing the 'letter', 'year' and numeric 'value' of the provid
+A tibble containing the 'letter', 'year' and numeric 'value' of the provid
 }
 \description{
-If it is valid a provid, generate a list containing 'letter', 'year' and 'value' based on it.
+If it is valid a provid, generate a tibble containing 'letter', 'year' and 'value' based on it.
 }

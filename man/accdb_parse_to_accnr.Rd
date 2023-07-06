@@ -10,7 +10,7 @@ accdb_parse_to_accnr(accdb_str)
 \item{accdb_str}{The AccNR str from the database}
 }
 \value{
-A parsed accnr_list
+A parsed accnr_tib
 }
 \description{
 Convert from database accnr to human-readable accnr

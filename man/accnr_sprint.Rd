@@ -4,10 +4,10 @@
 \alias{accnr_sprint}
 \title{Format an accnr letter and value to the standard format}
 \usage{
-accnr_sprint(accnr_list)
+accnr_sprint(accnr_tib)
 }
 \arguments{
-\item{accnr_list}{The AccNR to format}
+\item{accnr_tib}{The AccNR to format}
 }
 \value{
 A string of the nicely formated AccNR
@@ -16,8 +16,8 @@ A string of the nicely formated AccNR
 Format the parsed accnr_list for printing.
 }
 \examples{
-accnr_str <- "A2022/12354"
-accnr_list <- accnr_parse(accnr_str)
-accnr_next <- accnr_add(accnr_list, 3)
+accnr_str <- c("A2022/12354", "B2023/00001")
+accnr_tib <- accnr_parse(accnr_str)
+accnr_next <- accnr_add(accnr_tib, c(1, 3))
 print(accnr_sprint(accnr_next))
 }

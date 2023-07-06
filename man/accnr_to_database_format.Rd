@@ -4,10 +4,10 @@
 \alias{accnr_to_database_format}
 \title{Convert from human-readable accnr to the accnr saved in the db}
 \usage{
-accnr_to_database_format(accnr_list)
+accnr_to_database_format(accnr_tib)
 }
 \arguments{
-\item{accnr_list}{The AccNR to format}
+\item{accnr_tib}{The AccNR to format}
 }
 \value{
 A string of the accnr formated for the db

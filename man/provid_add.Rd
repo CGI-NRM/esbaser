@@ -4,10 +4,10 @@
 \alias{provid_add}
 \title{Add a value onto an ProvID}
 \usage{
-provid_add(provid_list, amount)
+provid_add(provid_tib, amount)
 }
 \arguments{
-\item{provid_list}{The ProvID to add onto}
+\item{provid_tib}{The ProvID to add onto}
 
 \item{amount}{The value which will be added. Normally a 1 to get the next ProvID}
 }

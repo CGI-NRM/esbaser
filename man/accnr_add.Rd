@@ -4,13 +4,13 @@
 \alias{accnr_add}
 \title{Add a value onto an AccNR}
 \usage{
-accnr_add(accnr_list, amount)
+accnr_add(accnr_tib, amount)
 }
 \arguments{
-\item{accnr_list}{The AccNR to add onto}
+\item{accnr_tib}{The parsed AccNRs to add onto}
 
 \item{amount}{The value which will be added. Normally a 1 to get the next AccNR}
 }
 \description{
-Given a parsed AccNR, add to the value of it
+Given (a) parsed AccNR(s), add to the value of it(them)
 }

@@ -4,20 +4,20 @@
 \alias{provid_sprint}
 \title{Format an provid letter and value to the standard format}
 \usage{
-provid_sprint(provid_list)
+provid_sprint(provid_tib)
 }
 \arguments{
-\item{provid_list}{The ProvID to format}
+\item{provid_tib}{The ProvID to format}
 }
 \value{
 A string of the nicely formated ProvID
 }
 \description{
-Format the parsed provid_list for printing.
+Format the parsed provid_tib for printing.
 }
 \examples{
 provid_str <- "Q2022-12354"
-provid_list <- provid_parse(provid_str)
-provid_next <- provid_add(provid_list, 3)
+provid_tib <- provid_parse(provid_str)
+provid_next <- provid_add(provid_tib, 3)
 print(provid_sprint(provid_next))
 }
