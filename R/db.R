@@ -74,11 +74,6 @@ get_fish_between <- function(conn, accnr_start, accnr_end) {
   accdb_start <- accnr_start |> accnr_parse() |> accnr_to_database_format()
   accdb_end <- accnr_end |> accnr_parse() |> accnr_to_database_format()
 
-  print(tbl(conn, "fish") |>
-  filter(between(accession_id, accdb_start, accdb_end)) |>
-  select(accession_id, nourishment_id, gender_id, liverweight, totallength,
-         decay_id, reproduction_phase_id, othernumber, bodylength, gonadweight) |>
-  show_query())
   tbl(conn, "fish") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
   select(accession_id, nourishment_id, gender_id, liverweight, totallength,
