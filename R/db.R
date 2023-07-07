@@ -348,3 +348,16 @@ get_material_type <- function(conn) {
   select(id, name, sortbyme) |>
   collect()
 }
+
+#' Get Gender
+#'
+#' Get the entire gender table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_gender <- function(conn) {
+  tbl(conn, "gender") |>
+  select(id, code, swe_name, eng_name) |>
+  collect()
+}
