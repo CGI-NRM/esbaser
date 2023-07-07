@@ -361,3 +361,32 @@ get_gender <- function(conn) {
   select(id, code, swe_name, eng_name) |>
   collect()
 }
+
+#' Get Person
+#'
+#' Get the entire person table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_person <- function(conn) {
+  tbl(conn, "person") |>
+  select(id, firstname, lastname, institution, address, postnumber, town,
+         country, phone, email, type, note, username, password, rights,
+         created_by, updated_by, created, updated) |>
+  collect()
+}
+
+#' Get Project
+#'
+#' Get the entire project table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_project <- function(conn) {
+  tbl(conn, "project") |>
+  select(id, name, number, contact_id, start, end, note, finished, created_by,
+         updated_by, catalog_id, analysis_project, created, updated) |>
+  collect()
+}
