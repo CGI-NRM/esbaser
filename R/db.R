@@ -343,7 +343,7 @@ get_material_type <- function(conn) {
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
 #' @return A tibble
 #' @export
-get_material_type <- function(conn) {
+get_material_storage <- function(conn) {
   tbl(conn, "material_storage") |>
   select(id, name, sortbyme) |>
   collect()
