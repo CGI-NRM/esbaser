@@ -184,43 +184,23 @@ get_specimen_between <- function(conn, accnr_start, accnr_end) {
   collect()
 }
 
-#' Get bird between
+#' Get material between
 #'
-#' Gets all bird between lower and upper
-#'
-#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
-#' @param accnr_start The lower accession_id (inclusive)
-#' @param accnr_end The upper accession_id (inclusive)
-#' @return A tibble
-#' @export
-get_bird_between <- function(conn, accnr_start, accnr_end) {
-  accdb_start <- accnr_to_accdb(accnr_start)
-  accdb_end <- accnr_to_accdb(accnr_end)
-
-  tbl(conn, "bird") |>
-  filter(between(accession_id, accdb_start, accdb_end)) |>
-  select(accession_id, nourishment_id, gender_id, liverweight, totallength, xrays, svanumber,
-         ringnumber, fieldnumber, othernumber, autopsy_date, autopsy, xray, decay_id) |>
-  collect()
-}
-
-#' Get bird between
-#'
-#' Gets all bird between lower and upper
+#' Gets all material between lower and upper
 #'
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
 #' @param accnr_start The lower accession_id (inclusive)
 #' @param accnr_end The upper accession_id (inclusive)
 #' @return A tibble
 #' @export
-get_bird_between <- function(conn, accnr_start, accnr_end) {
+get_material_between <- function(conn, accnr_start, accnr_end) {
   accdb_start <- accnr_to_accdb(accnr_start)
   accdb_end <- accnr_to_accdb(accnr_end)
 
-  tbl(conn, "bird") |>
+  tbl(conn, "material") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
-  select(accession_id, nourishment_id, gender_id, liverweight, totallength, xrays, svanumber,
-         ringnumber, fieldnumber, othernumber, autopsy_date, autopsy, xray, decay_id) |>
+  select(id, accession_id, material_type_id, amount_original, amount_left, storage_id, storage_type_id,
+         storage_note, created_by, updated_by, created, updated) |>
   collect()
 }
 
@@ -340,5 +320,31 @@ get_nourishment <- function(conn) {
 get_age <- function(conn) {
   tbl(conn, "age") |>
   select(id, code, swe_name, eng_name) |>
+  collect()
+}
+
+#' Get Material Type
+#'
+#' Get the entire material_type table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_material_type <- function(conn) {
+  tbl(conn, "material_type") |>
+  select(id, code, swe_name, eng_name) |>
+  collect()
+}
+
+#' Get Material Storange
+#'
+#' Get the entire material_storage table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_material_type <- function(conn) {
+  tbl(conn, "material_storage") |>
+  select(id, name, sortbyme) |>
   collect()
 }

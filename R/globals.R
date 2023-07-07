@@ -98,5 +98,12 @@ utils::globalVariables(c("id",
                          "deathdate_end",
                          "age_type_id",
                          "age_start",
-                         "age_end")
+                         "age_end",
+                         "material_type_id",
+                         "amount_original",
+                         "amount_left",
+                         "storage_id",
+                         "storage_type_id",
+                         "storage_note",
+                         "sortbyme")
 )
