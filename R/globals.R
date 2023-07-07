@@ -92,5 +92,11 @@ utils::globalVariables(c("id",
                          "xrays",
                          "circumference_breast",
                          "circumference_abdomen",
-                         "circumference_hip")
+                         "circumference_hip",
+                         "storagenote",
+                         "deathdate_start",
+                         "deathdate_end",
+                         "age_type_id",
+                         "age_start",
+                         "age_end")
 )

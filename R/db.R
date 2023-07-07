@@ -165,6 +165,65 @@ get_bird_between <- function(conn, accnr_start, accnr_end) {
   collect()
 }
 
+#' Get specimen between
+#'
+#' Gets all specimen between lower and upper accessionid
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param accnr_start The lower accession_id (inclusive)
+#' @param accnr_end The upper accession_id (inclusive)
+#' @return A tibble
+#' @export
+get_specimen_between <- function(conn, accnr_start, accnr_end) {
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
+
+  tbl(conn, "specimen") |>
+  filter(between(id, accdb_start, accdb_end)) |>
+  select(id, note, storagenote, deathdate_start, deathdate_end, age_type_id, age_start, age_end, weight) |>
+  collect()
+}
+
+#' Get bird between
+#'
+#' Gets all bird between lower and upper
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param accnr_start The lower accession_id (inclusive)
+#' @param accnr_end The upper accession_id (inclusive)
+#' @return A tibble
+#' @export
+get_bird_between <- function(conn, accnr_start, accnr_end) {
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
+
+  tbl(conn, "bird") |>
+  filter(between(accession_id, accdb_start, accdb_end)) |>
+  select(accession_id, nourishment_id, gender_id, liverweight, totallength, xrays, svanumber,
+         ringnumber, fieldnumber, othernumber, autopsy_date, autopsy, xray, decay_id) |>
+  collect()
+}
+
+#' Get bird between
+#'
+#' Gets all bird between lower and upper
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param accnr_start The lower accession_id (inclusive)
+#' @param accnr_end The upper accession_id (inclusive)
+#' @return A tibble
+#' @export
+get_bird_between <- function(conn, accnr_start, accnr_end) {
+  accdb_start <- accnr_to_accdb(accnr_start)
+  accdb_end <- accnr_to_accdb(accnr_end)
+
+  tbl(conn, "bird") |>
+  filter(between(accession_id, accdb_start, accdb_end)) |>
+  select(accession_id, nourishment_id, gender_id, liverweight, totallength, xrays, svanumber,
+         ringnumber, fieldnumber, othernumber, autopsy_date, autopsy, xray, decay_id) |>
+  collect()
+}
+
 #' Get Localitys
 #'
 #' Get the entire locality table from the database
@@ -267,6 +326,19 @@ get_species <- function(conn) {
 #' @export
 get_nourishment <- function(conn) {
   tbl(conn, "nourishment") |>
+  select(id, code, swe_name, eng_name) |>
+  collect()
+}
+
+#' Get Age
+#'
+#' Get the entire age table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_age <- function(conn) {
+  tbl(conn, "age") |>
   select(id, code, swe_name, eng_name) |>
   collect()
 }

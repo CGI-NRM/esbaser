@@ -5,6 +5,10 @@
 \title{Get bird between}
 \usage{
 get_bird_between(conn, accnr_start, accnr_end)
+
+get_bird_between(conn, accnr_start, accnr_end)
+
+get_bird_between(conn, accnr_start, accnr_end)
 }
 \arguments{
 \item{conn}{The database connection returned by \link[esbaser]{connect_to_database}}
@@ -15,7 +19,15 @@ get_bird_between(conn, accnr_start, accnr_end)
 }
 \value{
 A tibble
+
+A tibble
+
+A tibble
 }
 \description{
+Gets all bird between lower and upper
+
+Gets all bird between lower and upper
+
 Gets all bird between lower and upper
 }
