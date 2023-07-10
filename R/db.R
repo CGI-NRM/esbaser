@@ -390,3 +390,16 @@ get_project <- function(conn) {
          updated_by, catalog_id, analysis_project, created, updated) |>
   collect()
 }
+
+#' Get Analysis Type
+#'
+#' Get the entire analysis_type table from the database
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @return A tibble
+#' @export
+get_analysis_type <- function(conn) {
+  tbl(conn, "analysis_type") |>
+  select(id, name) |>
+  collect()
+}
