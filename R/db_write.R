@@ -24,7 +24,7 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
   new_rows <- tibble(
     accession_id = accdbs, material_type_id = material_type_id,
     created_by = account_id, updated_by = account_id,
-    created = today(), updated = today())
+    created = format(today()), updated = format(today()))
 
   for (row in seq_len(nrow(new_rows))) {
     row <- unlist(new_rows[row, ], use.names = FALSE)
