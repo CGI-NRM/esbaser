@@ -83,6 +83,20 @@ accnr_db_sprint <-  function(accnr_tib) {
   sprintf("%s%s%05d", first_num, substring(year_str, 2, 4), accnr_tib$value)
 }
 
+#' Validate AccDB entered by the user
+#'
+#' @description Validate a accdb, on the form 202200000
+#'
+#' @return Logical value wether the accdb_str is a valid accdb that can be parsed or not.
+#'
+#' @param accdb_str The AccDB to be validated
+#'
+#' @importFrom stringr str_detect
+#' @export
+accdb_validate <- function(accdb_str) {
+  str_detect(accdb_str, "[1-9][0-9]{8}")
+}
+
 #' Convert from database accdb to parsed accnr-tibble
 #'
 #' @param accdb_str The AccNR str from the database
