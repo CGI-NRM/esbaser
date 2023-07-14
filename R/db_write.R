@@ -3,7 +3,7 @@
 #' Insert new material rows
 #'
 #' @param conn The database connection returned by \link[esbaser]{connect_to_database}
-#' @param account_id The id of the logged in user to be put in the created_by,updated_by column
+#' @param account_id The id of the logged in user to be put in the created_by,updated_by column. Must be a numeric.
 #' @param accdbs The accession ids in database form to add to point the materials to
 #' @param material_type_id The inital material_type_id for the new material rows
 #' @return The number of affected rows
@@ -13,7 +13,11 @@
 #' @importFrom lubridate today
 #' @export
 insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
-  account_id <- as.integer(account_id)
+  if (!is.numeric(account_id)) {
+    stop("Account id is not numeric.")
+    return()
+  }
+
   if (any(!accdb_validate(accdbs))) {
     stop("Invalid accdbs")
     return()
@@ -64,6 +68,13 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
 #' @importFrom lubridate today
 #' @export
 update_material <- function(conn, account_id, material) {
+  if (!is.numeric(account_id)) {
+    stop("Account id is not numeric.")
+    return()
+  }
+
+  affected_rows <- 0
+
   for (row in seq_len(nrow(material))) {
     id <- material[row, "id", drop = TRUE]
     material_type_id <- material[row, "material_type_id", drop = TRUE]
@@ -80,9 +91,13 @@ update_material <- function(conn, account_id, material) {
              SET `material_type_id` = {material_type_id}, `amount_original` = {amount_original}, `amount_left` = {amount_left},
              `storage_id` = {storage_id}, `storage_type_id` = {storage_type_id}, `storage_note` = {storage_note},
              `updated_by` = {updated_by}, `updated` = {updated}
-             WHERE `id` = {id}
+             WHERE `id` = {id};
              ", .con = conn)
 
-    print(sql)
+    stat <- dbSendStatement(conn, sql)
+    affected_rows <- affected_rows + dbGetRowsAffected(stat)
+    dbClearResult(stat)
   }
+
+  return(affected_rows)
 }

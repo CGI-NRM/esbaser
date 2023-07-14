@@ -9,7 +9,7 @@ insert_new_material(conn, account_id, accdbs, material_type_id)
 \arguments{
 \item{conn}{The database connection returned by \link[esbaser]{connect_to_database}}
 
-\item{account_id}{The id of the logged in user to be put in the created_by,updated_by column}
+\item{account_id}{The id of the logged in user to be put in the created_by,updated_by column. Must be a numeric.}
 
 \item{accdbs}{The accession ids in database form to add to point the materials to}
 
