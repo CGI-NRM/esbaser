@@ -31,13 +31,13 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
 
   data <- lapply(seq_len(nrow(new_rows)), function(row) {
     row <- unlist(new_rows[row, ], use.names = FALSE)
-    glue_sql("({row*}, '', NULL, NULL, NULL)", .con = conn)
+    glue_sql("({row*}, '', NULL, NULL, NULL, NULL)", .con = conn)
   }) |> unlist() |> paste0(collapse = ", ")
 
   sql <- paste0(
     "INSERT INTO material ",
     "(accession_id, material_type_id, created_by, updated_by, created, updated, ",
-    "storage_note, amount_original, amount_left, storage_type_id) ",
+    "storage_note, amount_original, amount_left, storage_type_id, storage_id) ",
     "VALUES ",
     data,
     ";")
