@@ -16,7 +16,7 @@ insert_new_material(conn, account_id, accdbs, material_type_id)
 \item{material_type_id}{The inital material_type_id for the new material rows}
 }
 \value{
-Success of write
+The number of affected rows
 }
 \description{
 Insert new material rows
