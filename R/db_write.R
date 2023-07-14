@@ -151,7 +151,8 @@ update_specimen <- function(conn, account_id, specimen) {
     sql_accession <- glue_sql(
     "UPDATE accession
     SET `updated_by` = {updated_by}, `updated` = {updated}
-    WHERE `id` = {accession_id};")
+    WHERE `id` = {accession_id};
+    ", .con = conn)
 
     stat <- dbSendStatement(conn, sql_accession)
     affected_rows <- affected_rows + dbGetRowsAffected(stat)
@@ -212,7 +213,8 @@ update_fish <- function(conn, account_id, fish) {
     sql_accession <- glue_sql(
     "UPDATE accession
     SET `updated_by` = {updated_by}, `updated` = {updated}
-    WHERE `id` = {accession_id};")
+    WHERE `id` = {accession_id};
+    ", .con = conn)
 
     stat <- dbSendStatement(conn, sql_accession)
     affected_rows <- affected_rows + dbGetRowsAffected(stat)
