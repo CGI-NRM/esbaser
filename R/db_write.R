@@ -101,3 +101,123 @@ update_material <- function(conn, account_id, material) {
 
   return(affected_rows)
 }
+
+#' Update specimen rows
+#'
+#' Update material rows based on moified tibble returned by \link[esbaser]{get_specimen_between} based on the accession_id
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param account_id The id of the logged in user to be put in the created_by,updated_by column
+#' @param specimen A tibble of the specimen, containing the columns 'id, note, storagenote, deathdate_start, deathdate_end,
+#' age_type_id, age_start, age_end, weight
+#' @return The number of affected rows
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @importFrom lubridate today
+#' @export
+update_specimen <- function(conn, account_id, specimen) {
+  if (!is.numeric(account_id)) {
+    stop("Account id is not numeric.")
+    return()
+  }
+
+  affected_rows <- 0
+
+  for (row in seq_len(nrow(specimen))) {
+    id <- specimen[row, "id", drop = TRUE]
+    note <- specimen[row, "note", drop = TRUE]
+    storagenote <- specimen[row, "storagenote", drop = TRUE]
+    deathdate_start <- specimen[row, "deathdate_start", drop = TRUE]
+    deathdate_end <- specimen[row, "deathdate_end", drop = TRUE]
+    age_type_id <- specimen[row, "age_type_id", drop = TRUE]
+    age_start <- specimen[row, "age_start", drop = TRUE]
+    age_end <- specimen[row, "age_end", drop = TRUE]
+    updated_by <- account_id
+    updated <- format(today())
+
+    sql_specimen <- glue_sql("
+             UPDATE specimen
+             SET `note` = {note}, `storagenote` = {storagenote}, `deathdate_start` = {deathdate_start},
+             `deathdate_end` = {deathdate_end}, `age_type_id` = {age_type_id}, `age_start` = {age_start},
+             `age_end` = {age_end}
+             WHERE `id` = {id};
+             ", .con = conn)
+
+    stat <- dbSendStatement(conn, sql_specimen)
+    affected_rows <- affected_rows + dbGetRowsAffected(stat)
+    dbClearResult(stat)
+
+    sql_accession <- glue_sql(
+    "UPDATE accession
+    SET `updated_by` = {updated_by}, `updated` = {updated}
+    WHERE `id` = {accession_id};")
+
+    stat <- dbSendStatement(conn, sql_accession)
+    affected_rows <- affected_rows + dbGetRowsAffected(stat)
+    dbClearResult(stat)
+  }
+
+  return(affected_rows)
+}
+
+#' Update fish rows
+#'
+#' Update fish rows based on moified tibble returned by \link[esbaser]{get_fish_between} based on the accession_id
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param account_id The id of the logged in user to be put in the created_by,updated_by column
+#' @param fish A tibble of the fish, containing the columns 'accession_id, nourishment_id, gender_id, liverweight, totallength,
+#' decay_id, reproduction_phase_id, othernumber, bodylength
+#' @return The number of affected rows
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @importFrom lubridate today
+#' @export
+update_fish <- function(conn, account_id, fish) {
+  if (!is.numeric(account_id)) {
+    stop("Account id is not numeric.")
+    return()
+  }
+
+  affected_rows <- 0
+
+  for (row in seq_len(nrow(fish))) {
+    accession_id <- fish[row, "accession_id", drop = TRUE]
+    nourishment_id <- fish[row, "nourishment_id", drop = TRUE]
+    gender_id <- fish[row, "gender_id", drop = TRUE]
+    liverweight <- fish[row, "liverweight", drop = TRUE]
+    totallength <- fish[row, "totallength", drop = TRUE]
+    decay_id <- fish[row, "decay_id", drop = TRUE]
+    reproduction_phase_id <- fish[row, "reproduction_phase_id", drop = TRUE]
+    othernumber <- fish[row, "othernumber", drop = TRUE]
+    bodylength <- fish[row, "bodylength", drop = TRUE]
+
+    updated_by <- account_id
+    updated <- format(today())
+
+    sql_fish <- glue_sql(
+      "UPDATE fish
+      SET `nourishment_id` = {nourishment_id}, `gender_id` = {gender_id}, `liverweight` = {liverweight},
+      `totallength` = {totallength}, `decay_id` = {decay_id}, `reproduction_phase_id` = {reproduction_phase_id},
+      `othernumber` = {othernumber}, `bodylength` = {bodylength}
+      WHERE `accession_id` = {accession_id};
+      ", .con = conn)
+
+    stat <- dbSendStatement(conn, sql_fish)
+    affected_rows <- affected_rows + dbGetRowsAffected(stat)
+    dbClearResult(stat)
+
+    sql_accession <- glue_sql(
+    "UPDATE accession
+    SET `updated_by` = {updated_by}, `updated` = {updated}
+    WHERE `id` = {accession_id};")
+
+    stat <- dbSendStatement(conn, sql_accession)
+    affected_rows <- affected_rows + dbGetRowsAffected(stat)
+    dbClearResult(stat)
+  }
+
+  return(affected_rows)
+}
