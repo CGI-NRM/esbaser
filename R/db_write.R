@@ -135,7 +135,7 @@ update_specimen <- function(conn, account_id, specimen) {
     age_end <- specimen[row, "age_end", drop = TRUE]
     weight <- specimen[row, "weight", drop = TRUE]
     updated_by <- account_id
-    updated <- format(today())
+    updated <- format(now())
 
     sql_specimen <- glue_sql("
              UPDATE specimen
@@ -198,7 +198,7 @@ update_fish <- function(conn, account_id, fish) {
     gonadweight <- fish[row, "gonadweight", drop = TRUE]
 
     updated_by <- account_id
-    updated <- format(today())
+    updated <- format(now())
 
     sql_fish <- glue_sql(
       "UPDATE fish
