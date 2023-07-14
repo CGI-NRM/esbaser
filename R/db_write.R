@@ -151,7 +151,7 @@ update_specimen <- function(conn, account_id, specimen) {
     sql_accession <- glue_sql(
     "UPDATE accession
     SET `updated_by` = {updated_by}, `updated` = {updated}
-    WHERE `id` = {accession_id};
+    WHERE `id` = {id};
     ", .con = conn)
 
     stat <- dbSendStatement(conn, sql_accession)
