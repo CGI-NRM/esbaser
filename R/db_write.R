@@ -133,6 +133,7 @@ update_specimen <- function(conn, account_id, specimen) {
     age_type_id <- specimen[row, "age_type_id", drop = TRUE]
     age_start <- specimen[row, "age_start", drop = TRUE]
     age_end <- specimen[row, "age_end", drop = TRUE]
+    weight <- specimen[row, "weight", drop = TRUE]
     updated_by <- account_id
     updated <- format(today())
 
@@ -140,7 +141,7 @@ update_specimen <- function(conn, account_id, specimen) {
              UPDATE specimen
              SET `note` = {note}, `storagenote` = {storagenote}, `deathdate_start` = {deathdate_start},
              `deathdate_end` = {deathdate_end}, `age_type_id` = {age_type_id}, `age_start` = {age_start},
-             `age_end` = {age_end}
+             `age_end` = {age_end}, `weight` = {weight}
              WHERE `id` = {id};
              ", .con = conn)
 
@@ -194,6 +195,7 @@ update_fish <- function(conn, account_id, fish) {
     reproduction_phase_id <- fish[row, "reproduction_phase_id", drop = TRUE]
     othernumber <- fish[row, "othernumber", drop = TRUE]
     bodylength <- fish[row, "bodylength", drop = TRUE]
+    gonadweight <- fish[row, "gonadweight", drop = TRUE]
 
     updated_by <- account_id
     updated <- format(today())
@@ -202,7 +204,7 @@ update_fish <- function(conn, account_id, fish) {
       "UPDATE fish
       SET `nourishment_id` = {nourishment_id}, `gender_id` = {gender_id}, `liverweight` = {liverweight},
       `totallength` = {totallength}, `decay_id` = {decay_id}, `reproduction_phase_id` = {reproduction_phase_id},
-      `othernumber` = {othernumber}, `bodylength` = {bodylength}
+      `othernumber` = {othernumber}, `bodylength` = {bodylength}, `gonadweight` = {gonadweight}
       WHERE `accession_id` = {accession_id};
       ", .con = conn)
 
