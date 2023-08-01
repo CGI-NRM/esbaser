@@ -48,9 +48,5 @@ disconnect_from_database <- function(conn) {
 #' @param tib The tibble to convert columns in
 #' @param encoding Default 'latin1', the encoding to specify all columns as
 set_chr_column_encoding <- function(tib, encoding = "latin1") {
-  for (c in colnames(tib)[vapply(tib, is.character, TRUE)]) {
-    Encoding(tib[, c, drop = TRUE]) <- encoding
-  }
-
-  tib
+  mutate(tib, across(where(is.character), ~iconv(., "latin1", "UTF-8")))
 }
