@@ -16,7 +16,8 @@ get_accessions_between <- function(conn, accnr_start, accnr_end) {
   select(id, project_id, locality_id, accdate, arrival_date, species_id, discovery_id, discovery_date_start,
          discovery_date_end, sender_id, collector_id, created_by, updated_by, note, complete, latitude, longitude,
          findplace_note, coordinate_precision_id, oldnumber, description, catalog_id, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get fish between
@@ -36,7 +37,8 @@ get_fish_between <- function(conn, accnr_start, accnr_end) {
   filter(between(accession_id, accdb_start, accdb_end)) |>
   select(accession_id, nourishment_id, gender_id, liverweight, totallength,
          decay_id, reproduction_phase_id, othernumber, bodylength, gonadweight) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get egg between
@@ -58,7 +60,8 @@ get_egg_between <- function(conn, accnr_start, accnr_end) {
          shell_thickness2, shell_thickness3, shell_index, embryo_weight, embryo_length,
          embryo, hatch_egg_count, hatch_chick_count, note, hatch_note, egg_sent_material,
          hinna, content, decay_id) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get clam between
@@ -77,7 +80,8 @@ get_clam_between <- function(conn, accnr_start, accnr_end) {
   tbl(conn, "clam") |>
   filter(between(accession_id, accdb_start, accdb_end)) |>
   select(accession_id, length, width, wet_weight, dry_weight, shell_weight, note) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get mammal between
@@ -100,7 +104,8 @@ get_mammal_between <- function(conn, accnr_start, accnr_end) {
          fat_breast_back, fat_abdomen_back, fat_hip_back, fat, circumference_neck, circumference_breast, circumference_abdomen,
          circumference_hip, autopsy_date, autopsy_journal, autopsy_journal_old, autopsy, birth_year, svanumber,
          decay_id, xrays, xray, fieldnumber, othernumber, sent_material_id, liverweight, totallength, anus) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get bird between
@@ -120,7 +125,8 @@ get_bird_between <- function(conn, accnr_start, accnr_end) {
   filter(between(accession_id, accdb_start, accdb_end)) |>
   select(accession_id, nourishment_id, gender_id, liverweight, totallength, xrays, svanumber,
          ringnumber, fieldnumber, othernumber, autopsy_date, autopsy, xray, decay_id) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get specimen between
@@ -139,7 +145,8 @@ get_specimen_between <- function(conn, accnr_start, accnr_end) {
   tbl(conn, "specimen") |>
   filter(between(id, accdb_start, accdb_end)) |>
   select(id, note, storagenote, deathdate_start, deathdate_end, age_type_id, age_start, age_end, weight) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get material between
@@ -159,7 +166,8 @@ get_material_between <- function(conn, accnr_start, accnr_end) {
   filter(between(accession_id, accdb_start, accdb_end)) |>
   select(id, accession_id, material_type_id, amount_original, amount_left, storage_id, storage_type_id,
          storage_note, created_by, updated_by, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Localitys
@@ -173,7 +181,8 @@ get_locality <- function(conn) {
   tbl(conn, "locality") |>
   select(id, county_id, province_id, coast_id, country_id, name,
          closecity, created_by, updated_by, note, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Countys
@@ -186,7 +195,8 @@ get_locality <- function(conn) {
 get_county <- function(conn) {
   tbl(conn, "county") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Countrys
@@ -199,7 +209,8 @@ get_county <- function(conn) {
 get_country <- function(conn) {
   tbl(conn, "country") |>
   select(id, code, swe_name, eng_name, created_by, updated_by, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Provinces
@@ -212,7 +223,8 @@ get_country <- function(conn) {
 get_province <- function(conn) {
   tbl(conn, "province") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Coasts
@@ -225,7 +237,8 @@ get_province <- function(conn) {
 get_coast <- function(conn) {
   tbl(conn, "coast") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Catalog
@@ -238,7 +251,8 @@ get_coast <- function(conn) {
 get_catalog <- function(conn) {
   tbl(conn, "catalog") |>
   select(id, name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Species
@@ -252,7 +266,8 @@ get_species <- function(conn) {
   tbl(conn, "species") |>
   select(id, swe_name, eng_name, type, lat_name, created_by,
          updated_by, catalog_id, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Nourishment
@@ -265,7 +280,8 @@ get_species <- function(conn) {
 get_nourishment <- function(conn) {
   tbl(conn, "nourishment") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Age
@@ -278,7 +294,8 @@ get_nourishment <- function(conn) {
 get_age <- function(conn) {
   tbl(conn, "age") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Material Type
@@ -291,7 +308,8 @@ get_age <- function(conn) {
 get_material_type <- function(conn) {
   tbl(conn, "material_type") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Material Storange
@@ -304,7 +322,8 @@ get_material_type <- function(conn) {
 get_material_storage <- function(conn) {
   tbl(conn, "material_storage") |>
   select(id, name, sortbyme) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Gender
@@ -317,7 +336,8 @@ get_material_storage <- function(conn) {
 get_gender <- function(conn) {
   tbl(conn, "gender") |>
   select(id, code, swe_name, eng_name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Person
@@ -332,7 +352,8 @@ get_person <- function(conn) {
   select(id, firstname, lastname, institution, address, postnumber, town,
          country, phone, email, type, note, username, password, rights,
          created_by, updated_by, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Project
@@ -346,7 +367,8 @@ get_project <- function(conn) {
   tbl(conn, "project") |>
   select(id, name, number, contact_id, start, end, note, finished, created_by,
          updated_by, catalog_id, analysis_project, created, updated) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }
 
 #' Get Analysis Type
@@ -359,5 +381,6 @@ get_project <- function(conn) {
 get_analysis_type <- function(conn) {
   tbl(conn, "analysis_type") |>
   select(id, name) |>
-  collect()
+  collect() |>
+  set_chr_column_encoding()
 }

@@ -40,3 +40,17 @@ connect_to_database <- function(
 disconnect_from_database <- function(conn) {
   conn <- DBI::dbDisconnect(conn)
 }
+
+#' Set Character Encoding to Chr Columns
+#'
+#' Set the encoding using 'Encoding(col) <- encoding' to all column of character type
+#'
+#' @param tib The tibble to convert columns in
+#' @param encoding Default 'latin1', the encoding to specify all columns as
+set_chr_column_encoding <- function(tib, encoding = "latin1") {
+  for (c in colnames(tib)[vapply(tib, is.character, TRUE)]) {
+    Encoding(tib[, c, drop = TRUE]) <- encoding
+  }
+
+  tib
+}
