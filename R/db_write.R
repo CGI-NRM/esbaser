@@ -114,7 +114,7 @@ update_material <- function(conn, account_id, material) {
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
-#' @importFrom lubridate today
+#' @importFrom lubridate now
 #' @export
 update_specimen <- function(conn, account_id, specimen) {
   if (!is.numeric(account_id)) {
@@ -175,7 +175,7 @@ update_specimen <- function(conn, account_id, specimen) {
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
-#' @importFrom lubridate today
+#' @importFrom lubridate now
 #' @export
 update_fish <- function(conn, account_id, fish) {
   if (!is.numeric(account_id)) {
