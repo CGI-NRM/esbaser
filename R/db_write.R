@@ -262,7 +262,7 @@ insert_analysisrecord <- function(conn, account_id, project_id, creator_id, cont
                   shippingdate, analysis_type_id, result, analysis_type_note, 
                   created_by, updated_by, created, updated) 
                   VALUES ({project_id}, 0, {creator_id}, {contact_id}, {date},
-                  {shippingdate}, {analysis_type_note}, {result}, {analysis_type_note},
+                  {shippingdate}, {analysis_type_id}, {result}, {analysis_type_note},
                   {account_id}, {account_id}, {created}, {created});", .con = conn)
 
   stat <- dbSendStatement(conn, sql)
