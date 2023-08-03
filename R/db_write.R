@@ -254,21 +254,6 @@ insert_analysisrecord <- function(conn, account_id, project_id, creator_id, cont
     return(list(affected_rows = 0, new_row_id = NULL))
   }
 
-  if (!is.numeric(project_id)) {
-    stop("Project id is not numeric.")
-    return(list(affected_rows = 0, new_row_id = NULL))
-  }
-
-  if (!is.numeric(creator_id)) {
-    stop("Creator id is not numeric.")
-    return(list(affected_rows = 0, new_row_id = NULL))
-  }
-
-  if (!is.numeric(contact_id)) {
-    stop("Contact id is not numeric.")
-    return(list(affected_rows = 0, new_row_id = NULL))
-  }
-
   created <- format(now())
 
   sql <- glue_sql("
