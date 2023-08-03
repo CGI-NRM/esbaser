@@ -6,7 +6,7 @@
 #' @param account_id The id of the logged in user to be put in the created_by,updated_by column. Must be a numeric.
 #' @param accdbs The accession ids in database form to add to point the materials to
 #' @param material_type_id The inital material_type_id for the new material rows
-#' @return The number of affected rows
+#' @return The number of affected rows as affected_rows in a list
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
@@ -15,12 +15,12 @@
 insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
   if (!is.numeric(account_id)) {
     stop("Account id is not numeric.")
-    return()
+    return(list(rows_affected = 0))
   }
 
   if (any(!accdb_validate(accdbs))) {
     stop("Invalid accdbs")
-    return()
+    return(list(rows_affected = 0))
   }
 
   if (length(accdbs) > 1000) {
@@ -50,7 +50,7 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
   rows_affected <- dbGetRowsAffected(stat)
   dbClearResult(stat)
 
-  return(rows_affected)
+  return(list(rows_affected = rows_affected))
 }
 
 #' Update material rows
@@ -61,7 +61,7 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
 #' @param account_id The id of the logged in user to be put in the created_by,updated_by column
 #' @param material A tibble of the material, containing the columns 'id, material_type_id, amount_original,
 #' amount_left, storage_id, storage_type_id, storage_note.
-#' @return The number of affected rows
+#' @return The number of affected rows as affected_rows in a list
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
@@ -70,7 +70,7 @@ insert_new_material <- function(conn, account_id, accdbs, material_type_id) {
 update_material <- function(conn, account_id, material) {
   if (!is.numeric(account_id)) {
     stop("Account id is not numeric.")
-    return()
+    return(list(rows_affected = 0))
   }
 
   affected_rows <- 0
@@ -99,7 +99,7 @@ update_material <- function(conn, account_id, material) {
     dbClearResult(stat)
   }
 
-  return(affected_rows)
+  return(list(rows_affected = affected_rows))
 }
 
 #' Update specimen rows
@@ -110,16 +110,16 @@ update_material <- function(conn, account_id, material) {
 #' @param account_id The id of the logged in user to be put in the created_by,updated_by column
 #' @param specimen A tibble of the specimen, containing the columns 'id, note, storagenote, deathdate_start, deathdate_end,
 #' age_type_id, age_start, age_end, weight
-#' @return The number of affected rows
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
 #' @importFrom lubridate now
+#' @return The number of affected rows as affected_rows in a list
 #' @export
 update_specimen <- function(conn, account_id, specimen) {
   if (!is.numeric(account_id)) {
     stop("Account id is not numeric.")
-    return()
+    return(list(rows_affected = 0))
   }
 
   affected_rows <- 0
@@ -160,7 +160,7 @@ update_specimen <- function(conn, account_id, specimen) {
     dbClearResult(stat)
   }
 
-  return(affected_rows)
+  return(list(rows_affected = affected_rows))
 }
 
 #' Update fish rows
@@ -171,16 +171,16 @@ update_specimen <- function(conn, account_id, specimen) {
 #' @param account_id The id of the logged in user to be put in the created_by,updated_by column
 #' @param fish A tibble of the fish, containing the columns 'accession_id, nourishment_id, gender_id, liverweight, totallength,
 #' decay_id, reproduction_phase_id, othernumber, bodylength
-#' @return The number of affected rows
 #' @importFrom DBI dbSendStatement
 #' @importFrom DBI dbGetRowsAffected
 #' @importFrom DBI dbClearResult
 #' @importFrom lubridate now
+#' @return The number of affected rows as affected_rows in a list
 #' @export
 update_fish <- function(conn, account_id, fish) {
   if (!is.numeric(account_id)) {
     stop("Account id is not numeric.")
-    return()
+    return(list(affected_rows = 0))
   }
 
   affected_rows <- 0
@@ -223,5 +223,147 @@ update_fish <- function(conn, account_id, fish) {
     dbClearResult(stat)
   }
 
-  return(affected_rows)
+  return(list(affected_rows = affected_rows))
+}
+
+#' Insert analysisrecord
+#'
+#' Insert new analysisrecord
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param account_id The id of the logged in user to be put in the created_by,updated_by column. Must be a numeric.
+#' @param project_id The id of the project this analysis is connected to
+#' @param creator_id The person_id of the creator of the analysis
+#' @param contact_id The person_id of the contact for this analysis
+#' @param date Provberedningsdatum
+#' @param shippingdate The date the sample was sent
+#' @param analysis_type_id Based on analysis_type
+#' @param result Notis, comment about the results of the analysis
+#' @param analysis_type_note Analystypnotis, comment about the analysis_type
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @importFrom DBI dbGetQuery
+#' @importFrom lubridate today
+#' @return The number of affected rows as affected_rows and the id of the newly created analysisrecord as new_row_id
+#' @export
+insert_analysisrecord <- function(conn, account_id, project_id, creator_id, contact_id, date,
+                                  shippingdate, analysis_type_id, result, analysis_type_note) {
+  if (!is.numeric(account_id)) {
+    stop("Account id is not numeric.")
+    return(list(affected_rows = 0, new_row_id = NULL))
+  }
+
+  if (!is.numeric(project_id)) {
+    stop("Project id is not numeric.")
+    return(list(affected_rows = 0, new_row_id = NULL))
+  }
+
+  if (!is.numeric(creator_id)) {
+    stop("Creator id is not numeric.")
+    return(list(affected_rows = 0, new_row_id = NULL))
+  }
+
+  if (!is.numeric(contact_id)) {
+    stop("Contact id is not numeric.")
+    return(list(affected_rows = 0, new_row_id = NULL))
+  }
+
+  created <- format(now())
+
+  sql <- glue_sql("
+                  INSERT INTO analysisrecord
+                  (project_id, species_id, creator_id, contact_id, date, 
+                  shippingdate, analysis_type_id, result, analysis_type_note, 
+                  created_by, updated_by, created, updated) 
+                  VALUES ({project_id}, 0, {creator_id}, {contact_id}, {date},
+                  {shippingdate}, {analysis_type_note}, {result}, {analysis_type_note},
+                  {account_id}, {account_id}, {created}, {created});", .con = conn)
+
+  stat <- dbSendStatement(conn, sql)
+  rows_affected <- dbGetRowsAffected(stat)
+  dbClearResult(stat)
+
+  new_row_id <- dbGetQuery(conn, "SELECT LAST_INSERT_ID() as id")$id
+
+  return(list(rows_affected = rows_affected, new_row_id = new_row_id))
+}
+
+#' Insert analysisrecord_row
+#'
+#' Insert new analysisrecord_row
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param amount The size of the sample
+#' @param homogenate_amount If a homogenate, the partial weight
+#' @param tag The provid of the sample
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @importFrom DBI dbGetQuery
+#' @return The number of affected rows as affected_rows and the id of the newly created analysisrecord as new_row_id
+#' @export
+insert_analysisrecord_row <- function(conn, amount, homogenate_amount, tag) {
+  sql <- glue_sql("
+                  INSERT INTO analysisrecord_row
+                  (amount, homogenate_amount, tag)
+                  VALUES ({amount}, {homogenate_amount}, {tag});", .con = conn)
+
+  stat <- dbSendStatement(conn, sql)
+  rows_affected <- dbGetRowsAffected(stat)
+  dbClearResult(stat)
+
+  new_row_id <- dbGetQuery(conn, "SELECT LAST_INSERT_ID() as id")$id
+
+  return(list(rows_affected = rows_affected, new_row_id = new_row_id))
+}
+
+#' Insert analysisrecord_row_assn
+#'
+#' Insert new analysisrecord_row_assn, connect two ids of analysisrecord and analysisrecord_row
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param analysisrecord_id The id of the newly inserted analysisrecord
+#' @param analysisrecord_row_id The id of the newly inserted analysisrecord_row
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @return The number of affected rows as affected_rows in a list
+#' @export
+insert_analysisrecord_row_assn <- function(conn, analysisrecord_id, analysisrecord_row_id) {
+  sql <- glue_sql("
+                  INSERT INTO analysisrecord_row_assn
+                  (analysis_record_row_id, analysis_record_id)
+                  VALUES ({analysisrecord_row_id}, {analysisrecord_id});", .con = conn)
+
+  stat <- dbSendStatement(conn, sql)
+  rows_affected <- dbGetRowsAffected(stat)
+  dbClearResult(stat)
+
+  return(list(rows_affected = rows_affected))
+}
+
+#' Insert analysisrecord_material_assn
+#'
+#' Insert new analysisrecord_material_assn, connect two ids of analysisrecord and material
+#'
+#' @param conn The database connection returned by \link[esbaser]{connect_to_database}
+#' @param analysisrecord_row_id The id of the analysisrecord_row to link to a material
+#' @param material_id The id of the material to link to an analysisrecord_row
+#' @importFrom DBI dbSendStatement
+#' @importFrom DBI dbGetRowsAffected
+#' @importFrom DBI dbClearResult
+#' @return The number of affected rows as affected_rows in a list
+#' @export
+insert_analysisrecord_material_assn <- function(conn, analysisrecord_row_id, material_id) {
+  sql <- glue_sql("
+                  INSERT INTO analysisrecord_material_assn
+                  (analysisrecordRow_id, material_id)
+                  VALUES ({analysisrecord_row_id}, {material_id});", .con = conn)
+
+  stat <- dbSendStatement(conn, sql)
+  rows_affected <- dbGetRowsAffected(stat)
+  dbClearResult(stat)
+
+  return(list(rows_affected = rows_affected))
 }

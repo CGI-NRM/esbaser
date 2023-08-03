@@ -15,7 +15,7 @@ update_fish(conn, account_id, fish)
 decay_id, reproduction_phase_id, othernumber, bodylength}
 }
 \value{
-The number of affected rows
+The number of affected rows as affected_rows in a list
 }
 \description{
 Update fish rows based on moified tibble returned by \link[esbaser]{get_fish_between} based on the accession_id

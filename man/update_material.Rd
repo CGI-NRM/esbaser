@@ -15,7 +15,7 @@ update_material(conn, account_id, material)
 amount_left, storage_id, storage_type_id, storage_note.}
 }
 \value{
-The number of affected rows
+The number of affected rows as affected_rows in a list
 }
 \description{
 Update material rows based on moified tibble returned by \link[esbaser]{get_material_between} based on the id

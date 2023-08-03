@@ -15,7 +15,7 @@ update_specimen(conn, account_id, specimen)
 age_type_id, age_start, age_end, weight}
 }
 \value{
-The number of affected rows
+The number of affected rows as affected_rows in a list
 }
 \description{
 Update material rows based on moified tibble returned by \link[esbaser]{get_specimen_between} based on the accession_id
